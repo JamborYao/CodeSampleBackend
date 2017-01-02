@@ -205,16 +205,27 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="ComFunc\CodeHelper.cs" />
+    <Compile Include="ComFunc\GitHubHelper.cs" />
+    <Compile Include="ComFunc\UrlHelper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AComCodeController.cs" />
+    <Compile Include="Controllers\CommitController1.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\SyncController.cs" />
+    <Compile Include="Controllers\IssueController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Code.cs" />
+    <Compile Include="Models\Commit.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Issue.cs" />
+    <Compile Include="Models\Metrics.cs" />
+    <Compile Include="Models\Platform.cs" />
+    <Compile Include="Models\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
