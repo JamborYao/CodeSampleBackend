@@ -8,7 +8,7 @@ using System.Web.Http;
 
 namespace CodeSampleBackend.Controllers
 {
-    public class CommitController1 : ApiController
+    public class CommitController : ApiController
     {
         // GET api/<controller>
         public IEnumerable<string> Get()

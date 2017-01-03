@@ -9,13 +9,13 @@ namespace CodeSampleBackend.Models
     {
         public int Id { get; set; }
         public Nullable<System.DateTime> CreateAt { get; set; }
-        public string Committer { get; set; }
+        public string Author { get; set; }
         public string Message { get; set; }
         public string Sha { get; set; }
         public string PSha { get; set; }
-        public Nullable<int> GitCodeId { get; set; }
-        public string Html_Url { get; set; }
+        public Nullable<int> CodeId { get; set; }
+        public string URL { get; set; }
         public Nullable<bool> IsNew { get; set; }
-        public string From { get; set; } //Acom,Acn
+        public string Type { get; set; } //Acom,Acn
     }
 }

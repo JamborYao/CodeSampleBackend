@@ -23,20 +23,20 @@ namespace CodeSampleBackend.Models
         public string Author { get; set; }
 
         [JsonProperty(PropertyName = "last_update")]
-        public string LastUpateDate { get; set; }
+        public DateTime LastUpateDate { get; set; }
 
-        [JsonProperty(PropertyName = "tags")]
-        public string Tags { get; set; }
-
-        [JsonProperty(PropertyName = "github_link")]
-        public string GitHubLink { get; set; }
+        [JsonProperty(PropertyName = "products")]
+        public List<string> Products { get; set; }
+        [JsonProperty(PropertyName = "platform")]
+        public List<string> Platform { get; set; }
 
         [JsonProperty(PropertyName = "sync_date")]
-        public string SyncDate { get; set; }
+        public DateTime SyncDate { get; set; }
 
         [JsonProperty(PropertyName = "process")]
         public string Process { get; set; }
 
-
+        [JsonProperty(PropertyName = "girhub_url")]
+        public string GitHubUrl { get; set; }
     }
 }

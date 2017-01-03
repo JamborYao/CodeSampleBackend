@@ -1,0 +1,26 @@
+
+Log Entry : 
+01/03/2017 10:25:53
+this is my test error!
+________________________________________________________
+
+Log Entry : 
+01/03/2017 10:26:06
+The process cannot access the file 'c:\users\v-jayao\documents\visual studio 2015\Projects\CodeSampleBackend\CodeSampleBackend\error.txt' because it is being used by another process.
+________________________________________________________
+
+Log Entry : 
+01/03/2017 10:26:43
+this is my test error!
+________________________________________________________
+
+Log Entry : 
+01/03/2017 10:27:02
+this is my test error!
+________________________________________________________
+
+Log Entry : ConvertBodyToCode
+01/03/2017 11:21:18
+Value cannot be null.
+Parameter name: source
+________________________________________________________
