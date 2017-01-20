@@ -11,6 +11,8 @@ namespace CodeSampleBackend.ComFunc
         public const string SampleCodeDomain = "https://azure.microsoft.com";
         public static readonly string LogFilePath = $"{HttpRuntime.AppDomainAppPath}error.txt";
         public const int LatestNumber = 5; //get the latest commits/issues/pull requests, only get 5 at default
+        public const string GitHubAccount = "jamboryao";
+        public const string GitHubKey = "123Aking";
 
     }
 }

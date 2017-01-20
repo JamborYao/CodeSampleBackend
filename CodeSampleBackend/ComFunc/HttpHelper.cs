@@ -70,11 +70,10 @@ namespace CodeSampleBackend.ComFunc
                 HtmlDocument hdoc = new HtmlDocument();
                 hdoc.LoadHtml(body);
                 HtmlNodeCollection nodes = hdoc.DocumentNode.SelectNodes("//div[@class='card card-resource']");
+                if (nodes == null) return null;
                 foreach (var node in nodes)
                 {
                     Code code = new Code();
-                    code.Products = new List<string>();
-                    code.Platform = new List<string>();
                     code.Title = node.SelectSingleNode(".//a").InnerText;
                     code.Description = node.SelectSingleNode(".//p[@class='sd-truncateText text-mini']").InnerText;
                     code.Link = (node.SelectSingleNode(".//a")).Attributes["href"].Value;
@@ -82,13 +81,13 @@ namespace CodeSampleBackend.ComFunc
                     code.SyncDate = DateTime.UtcNow;
                     code.GitHubUrl = HttpHelper.GetGitHubURL(code.Link);
                     var tempUpdate = (node.SelectSingleNode(".//div[@class='meta']//span").InnerText);
-                    code.LastUpateDate = Convert.ToDateTime(tempUpdate.Substring(tempUpdate.IndexOf(":") + 1));
+                    code.LastUpdateDate = Convert.ToDateTime(tempUpdate.Substring(tempUpdate.IndexOf(":") + 1));
                     var products = node.SelectNodes(".//ul[@class='tags']//a[@class='service-label']");
                     if (products != null)
                     {
                         foreach (var product in products)
                         {
-                            code.Products.Add(product.InnerText);
+                            code.Products += product.InnerText + ";";
                         }
                     }
                     var platforms = node.SelectNodes(".//ul[@class='tags']//a[@class='platform-label']");
@@ -96,14 +95,14 @@ namespace CodeSampleBackend.ComFunc
                     {
                         foreach (var platform in platforms)
                         {
-                            code.Platform.Add(platform.InnerText);
+                            code.Platform += platform.InnerText + ";";
                         }
                     }
                     codes.Add(code);
                     //add sample code pull request
                     //sample.GitHubPullRequests = MooncakeTool.Common.GitHubDeveloper.GetGitHubPullEntity(sample.GitResourceUrl);
                     // sample.GitHubIssues= MooncakeTool.Common.GitHubDeveloper.GetGitHubIssuesEntity(sample.GitResourceUrl);
-                   // sample.GitHubCommits = MooncakeTool.Common.GitHubDeveloper.GetGitHubCommitsEntity(sample.GitResourceUrl);
+                    // sample.GitHubCommits = MooncakeTool.Common.GitHubDeveloper.GetGitHubCommitsEntity(sample.GitResourceUrl);
                 }
                 return codes;
             }
@@ -112,9 +111,50 @@ namespace CodeSampleBackend.ComFunc
                 ErrorLog.WriteError(e.Message, "ConvertBodyToCode");
                 throw;
             }
-           
-        
+
+
         }
 
+        public static List<Product> GetProducts()
+        {
+            List<Product> products = new List<Product>();
+
+            string body = GetHttpRequestBody(Constants.SampleCodeDomain + "/en-us/resources/samples/");
+
+            HtmlDocument hdoc = new HtmlDocument();
+            hdoc.LoadHtml(body);
+            HtmlNodeCollection nodes = hdoc.DocumentNode.SelectNodes("//select[@id='service-sort']//option");
+
+            foreach (var node in nodes)
+            {
+                Product product = new Product();
+                product.Name = node.NextSibling.InnerText;
+                product.Value = node.Attributes["value"].Value;
+                products.Add(product);
+            }
+
+            return products;
+        }
+        public static List<Platform> GetPlatforms()
+        {
+            List<Platform> platforms = new List<Platform>();
+
+
+            string body = GetHttpRequestBody(Constants.SampleCodeDomain + "/en-us/resources/samples/");
+
+            HtmlDocument hdoc = new HtmlDocument();
+            hdoc.LoadHtml(body);
+            HtmlNodeCollection nodes = hdoc.DocumentNode.SelectNodes("//select[@id='platform-sort']//option");
+
+            foreach (var node in nodes)
+            {
+                Platform platform = new Platform();
+                platform.Name = node.NextSibling.InnerText;
+                platform.Value = node.Attributes["value"].Value;
+                platforms.Add(platform);
+            }
+
+            return platforms;
+        }
     }
 }

@@ -56,11 +56,20 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.3\lib\net45\System.Web.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.3\lib\net45\System.Web.Http.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
@@ -209,37 +218,104 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Code.cs">
+      <DependentUpon>CodeEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeEF.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CodeEF.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeEF.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CodeEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeEF.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CodeEF.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="CodeOwnership.cs">
+      <DependentUpon>CodeEF.tt</DependentUpon>
+    </Compile>
     <Compile Include="ComFunc\CodeHelper.cs" />
     <Compile Include="ComFunc\Constants.cs" />
     <Compile Include="ComFunc\ErrorLog.cs" />
     <Compile Include="ComFunc\GitHubHelper.cs" />
     <Compile Include="ComFunc\HttpHelper.cs" />
-    <Compile Include="ComFunc\UrlHelper.cs" />
+    <Compile Include="Commit.cs">
+      <DependentUpon>CodeEF.tt</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AComCodeController.cs" />
+    <Compile Include="Controllers\CodeOwnerController.cs" />
     <Compile Include="Controllers\CommitController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IssueController.cs" />
+    <Compile Include="Controllers\PlatformController.cs" />
+    <Compile Include="Controllers\ProcessController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\UTController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="DAL\DALCode.cs" />
+    <Compile Include="DAL\DALCodeOwner.cs" />
+    <Compile Include="DAL\DALCodeView.cs" />
+    <Compile Include="DAL\DALCommit.cs" />
+    <Compile Include="DAL\DALIssue.cs" />
+    <Compile Include="DAL\DALProcessLog.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Issue.cs">
+      <DependentUpon>CodeEF.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Code.cs" />
+    <Compile Include="Models\CodeView.cs" />
     <Compile Include="Models\Commit.cs" />
+    <Compile Include="DAL\DALUT.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Issue.cs" />
     <Compile Include="Models\Metrics.cs" />
-    <Compile Include="Models\Platform.cs" />
-    <Compile Include="Models\Product.cs" />
+    <Compile Include="Platform.cs">
+      <DependentUpon>CodeEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Process.cs">
+      <DependentUpon>CodeEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProcessLog.cs">
+      <DependentUpon>CodeEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProcessView.cs">
+      <DependentUpon>CodeEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Product.cs">
+      <DependentUpon>CodeEF.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="SupportEngineer.cs">
+      <DependentUpon>CodeEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UTLog.cs">
+      <DependentUpon>CodeEF.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="CodeEF.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CodeEF.edmx</DependentUpon>
+      <LastGenOutput>CodeEF.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="CodeEF.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CodeEF.edmx</DependentUpon>
+      <LastGenOutput>CodeEF.cs</LastGenOutput>
+    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="error.txt">
@@ -269,6 +345,16 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <EntityDeploy Include="CodeEF.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CodeEF.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="CodeEF.edmx.diagram">
+      <DependentUpon>CodeEF.edmx</DependentUpon>
+    </Content>
+    <Content Include="App_Data\codesample.db3" />
+    <None Include="Properties\PublishProfiles\codesample.pubxml" />
+    <None Include="Properties\PublishProfiles\CodeSampleBackend - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -297,7 +383,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Views\Sync\" />
   </ItemGroup>
   <ItemGroup>
@@ -307,6 +392,9 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

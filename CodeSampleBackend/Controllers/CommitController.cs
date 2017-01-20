@@ -1,19 +1,32 @@
-﻿using CodeSampleBackend.Models;
+﻿using CodeSampleBackend.ComFunc;
+using CodeSampleBackend.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace CodeSampleBackend.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class CommitController : ApiController
     {
+        public MoonCakeCodeSampleEntities context;
         // GET api/<controller>
-        public IEnumerable<string> Get()
+        public List<Commit> Get()
         {
-            return new string[] { "value1", "value2" };
+            context = new MoonCakeCodeSampleEntities();
+            var entities = context.Commits;
+            if (entities != null)
+            {
+                return entities.ToList<Commit>();
+            }
+            else
+            {
+                return null;
+            }
         }
 
         // GET api/<controller>/5
@@ -21,28 +34,27 @@ namespace CodeSampleBackend.Controllers
         {
             return "value";
         }
-        public Commit GetLatestCommit()
-        {
-            return new Commit() { };
-        }
+    
 
-        public string PostLatestCommit()
-        {
-            return "ok";
-        }
+        
         // POST api/<controller>
         public void Post([FromBody]string value)
         {
+           
+            var codes =DAL.DALCode.GetAllCode();
+            foreach (var item in codes)
+            {
+                List<Commit> commits =  GitHubHelper.GetGitHubCommitEntity(GitHubHelper.GetGitHubCommitObject(item.GitHubUrl),item.id);
+                foreach (var i in commits)
+                {
+                    i.GitHubUrl = item.GitHubUrl; 
+                }
+                DAL.DALCommit.AddCommitsIfNotExistedElseUpdate(commits);
+            }
+          
         }
 
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
 
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
-        }
+
     }
 }

@@ -1,21 +1,35 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace CodeSampleBackend.Models
 {
-    public class Commit
+    public class CommitBody
     {
-        public int Id { get; set; }
-        public Nullable<System.DateTime> CreateAt { get; set; }
-        public string Author { get; set; }
-        public string Message { get; set; }
+        [JsonProperty(PropertyName = "sha")]
         public string Sha { get; set; }
-        public string PSha { get; set; }
-        public Nullable<int> CodeId { get; set; }
-        public string URL { get; set; }
-        public Nullable<bool> IsNew { get; set; }
-        public string Type { get; set; } //Acom,Acn
+        [JsonProperty(PropertyName = "html_url")]
+        public string Html_Url { get; set; }
+        [JsonProperty(PropertyName = "commit")]
+        public CommitCommit Commit { get; set; }
+    }
+
+    public class CommitAuthor
+    {
+        [JsonProperty(PropertyName = "name")]
+        public string Name { get; set; }
+        [JsonProperty(PropertyName = "email")]
+        public string Email { get; set; }
+        [JsonProperty(PropertyName = "date")]
+        public DateTime CommitDate { get; set; }
+    }
+    public class CommitCommit
+    {
+        [JsonProperty(PropertyName = "author")]
+        public CommitAuthor Author { get; set; }
+        [JsonProperty(PropertyName = "message")]
+        public string Message { get; set; }
     }
 }

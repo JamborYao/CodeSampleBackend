@@ -1,0 +1,476 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MoonCakeCodeSampleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Code">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" />
+          <Property Name="Link" Type="nvarchar" MaxLength="500" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Author" Type="nvarchar" MaxLength="50" />
+          <Property Name="LastUpdateDate" Type="datetime" />
+          <Property Name="Products" Type="nvarchar(max)" />
+          <Property Name="Platform" Type="nvarchar(max)" />
+          <Property Name="SyncDate" Type="datetime" />
+          <Property Name="Process" Type="nvarchar" MaxLength="100" />
+          <Property Name="GitHubUrl" Type="nvarchar" MaxLength="500" />
+          <Property Name="CommitID" Type="nvarchar" MaxLength="50" />
+          <Property Name="IssueID" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="CodeOwnership">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FkId" Type="int" />
+          <Property Name="support_alias" Type="nvarchar" MaxLength="50" />
+          <Property Name="LogAt" Type="datetime" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Commit">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreateAt" Type="datetime" />
+          <Property Name="Author" Type="nvarchar" MaxLength="50" />
+          <Property Name="Message" Type="nvarchar(max)" />
+          <Property Name="Sha" Type="nvarchar" MaxLength="50" />
+          <Property Name="PSha" Type="nvarchar" MaxLength="50" />
+          <Property Name="GitHubUrl" Type="nvarchar(max)" />
+          <Property Name="URL" Type="nvarchar(max)" />
+          <Property Name="IsNew" Type="bit" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="CodeID" Type="int" />
+        </EntityType>
+        <EntityType Name="Issue">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" />
+          <Property Name="Body" Type="nvarchar(max)" />
+          <Property Name="CreateAt" Type="datetime" />
+          <Property Name="Number" Type="int" />
+          <Property Name="Url" Type="nvarchar(max)" />
+          <Property Name="UnicodeId" Type="int" />
+          <Property Name="Replies" Type="int" />
+          <Property Name="Author" Type="nvarchar" MaxLength="50" />
+          <Property Name="CodeID" Type="int" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Platform">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="Value" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="CName" Type="nvarchar" MaxLength="50" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Process">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="status" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ProcessLog">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProcessID" Type="int" />
+          <Property Name="FkId" Type="int" />
+          <Property Name="LogAT" Type="datetime" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="CName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="SupportEngineers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DisplayName" Type="nvarchar" MaxLength="50" />
+          <Property Name="alias" Type="nvarchar" MaxLength="50" />
+          <Property Name="FkId" Type="int" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="UTLog">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UT" Type="int" />
+          <Property Name="FkId" Type="int" />
+          <Property Name="LogAt" Type="datetime" />
+          <Property Name="Comment" Type="nvarchar(max)" />
+          <Property Name="alias" Type="nvarchar" MaxLength="50" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'codesample.dbo.ProcessView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ProcessView">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="ProcessID" Type="int" />
+          <Property Name="FkId" Type="int" />
+          <Property Name="LogAT" Type="datetime" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityContainer Name="MoonCakeCodeSampleModelStoreContainer">
+          <EntitySet Name="Code" EntityType="Self.Code" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CodeOwnership" EntityType="Self.CodeOwnership" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Commit" EntityType="Self.Commit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Issue" EntityType="Self.Issue" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Platform" EntityType="Self.Platform" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Process" EntityType="Self.Process" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProcessLog" EntityType="Self.ProcessLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SupportEngineers" EntityType="Self.SupportEngineers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UTLog" EntityType="Self.UTLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProcessView" EntityType="Self.ProcessView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ProcessView].[id] AS [id], 
+    [ProcessView].[ProcessID] AS [ProcessID], 
+    [ProcessView].[FkId] AS [FkId], 
+    [ProcessView].[LogAT] AS [LogAT], 
+    [ProcessView].[Type] AS [Type], 
+    [ProcessView].[name] AS [name]
+    FROM [dbo].[ProcessView] AS [ProcessView]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MoonCakeCodeSampleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MoonCakeCodeSampleEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Codes" EntityType="MoonCakeCodeSampleModel.Code" />
+          <EntitySet Name="CodeOwnerships" EntityType="MoonCakeCodeSampleModel.CodeOwnership" />
+          <EntitySet Name="Commits" EntityType="MoonCakeCodeSampleModel.Commit" />
+          <EntitySet Name="Issues" EntityType="MoonCakeCodeSampleModel.Issue" />
+          <EntitySet Name="Platforms" EntityType="MoonCakeCodeSampleModel.Platform" />
+          <EntitySet Name="Processes" EntityType="MoonCakeCodeSampleModel.Process" />
+          <EntitySet Name="ProcessLogs" EntityType="MoonCakeCodeSampleModel.ProcessLog" />
+          <EntitySet Name="Products" EntityType="MoonCakeCodeSampleModel.Product" />
+          <EntitySet Name="SupportEngineers" EntityType="MoonCakeCodeSampleModel.SupportEngineer" />
+          <EntitySet Name="UTLogs" EntityType="MoonCakeCodeSampleModel.UTLog" />
+          <EntitySet Name="ProcessViews" EntityType="MoonCakeCodeSampleModel.ProcessView" />
+        </EntityContainer>
+        <EntityType Name="Code">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Link" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Author" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="Products" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Platform" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SyncDate" Type="DateTime" Precision="3" />
+          <Property Name="Process" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="GitHubUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CommitID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IssueID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="CodeOwnership">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FkId" Type="Int32" />
+          <Property Name="support_alias" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LogAt" Type="DateTime" Precision="3" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Commit">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreateAt" Type="DateTime" Precision="3" />
+          <Property Name="Author" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Sha" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PSha" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GitHubUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="URL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsNew" Type="Boolean" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CodeID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Issue">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Body" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreateAt" Type="DateTime" Precision="3" />
+          <Property Name="Number" Type="Int32" />
+          <Property Name="Url" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UnicodeId" Type="Int32" />
+          <Property Name="Replies" Type="Int32" />
+          <Property Name="Author" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CodeID" Type="Int32" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Platform">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Process">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ProcessLog">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProcessID" Type="Int32" />
+          <Property Name="FkId" Type="Int32" />
+          <Property Name="LogAT" Type="DateTime" Precision="3" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SupportEngineer">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DisplayName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="alias" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FkId" Type="Int32" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="UTLog">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UT" Type="Int32" />
+          <Property Name="FkId" Type="Int32" />
+          <Property Name="LogAt" Type="DateTime" Precision="3" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="alias" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ProcessView">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="ProcessID" Type="Int32" />
+          <Property Name="FkId" Type="Int32" />
+          <Property Name="LogAT" Type="DateTime" Precision="3" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MoonCakeCodeSampleModelStoreContainer" CdmEntityContainer="MoonCakeCodeSampleEntities">
+          <EntitySetMapping Name="Codes">
+            <EntityTypeMapping TypeName="MoonCakeCodeSampleModel.Code">
+              <MappingFragment StoreEntitySet="Code">
+                <ScalarProperty Name="IssueID" ColumnName="IssueID" />
+                <ScalarProperty Name="CommitID" ColumnName="CommitID" />
+                <ScalarProperty Name="GitHubUrl" ColumnName="GitHubUrl" />
+                <ScalarProperty Name="Process" ColumnName="Process" />
+                <ScalarProperty Name="SyncDate" ColumnName="SyncDate" />
+                <ScalarProperty Name="Platform" ColumnName="Platform" />
+                <ScalarProperty Name="Products" ColumnName="Products" />
+                <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CodeOwnerships">
+            <EntityTypeMapping TypeName="MoonCakeCodeSampleModel.CodeOwnership">
+              <MappingFragment StoreEntitySet="CodeOwnership">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="LogAt" ColumnName="LogAt" />
+                <ScalarProperty Name="support_alias" ColumnName="support_alias" />
+                <ScalarProperty Name="FkId" ColumnName="FkId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Commits">
+            <EntityTypeMapping TypeName="MoonCakeCodeSampleModel.Commit">
+              <MappingFragment StoreEntitySet="Commit">
+                <ScalarProperty Name="CodeID" ColumnName="CodeID" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="IsNew" ColumnName="IsNew" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="GitHubUrl" ColumnName="GitHubUrl" />
+                <ScalarProperty Name="PSha" ColumnName="PSha" />
+                <ScalarProperty Name="Sha" ColumnName="Sha" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="CreateAt" ColumnName="CreateAt" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Issues">
+            <EntityTypeMapping TypeName="MoonCakeCodeSampleModel.Issue">
+              <MappingFragment StoreEntitySet="Issue">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="CodeID" ColumnName="CodeID" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="Replies" ColumnName="Replies" />
+                <ScalarProperty Name="UnicodeId" ColumnName="UnicodeId" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="CreateAt" ColumnName="CreateAt" />
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Platforms">
+            <EntityTypeMapping TypeName="MoonCakeCodeSampleModel.Platform">
+              <MappingFragment StoreEntitySet="Platform">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="CName" ColumnName="CName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Processes">
+            <EntityTypeMapping TypeName="MoonCakeCodeSampleModel.Process">
+              <MappingFragment StoreEntitySet="Process">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProcessLogs">
+            <EntityTypeMapping TypeName="MoonCakeCodeSampleModel.ProcessLog">
+              <MappingFragment StoreEntitySet="ProcessLog">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="LogAT" ColumnName="LogAT" />
+                <ScalarProperty Name="FkId" ColumnName="FkId" />
+                <ScalarProperty Name="ProcessID" ColumnName="ProcessID" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="MoonCakeCodeSampleModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="CName" ColumnName="CName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SupportEngineers">
+            <EntityTypeMapping TypeName="MoonCakeCodeSampleModel.SupportEngineer">
+              <MappingFragment StoreEntitySet="SupportEngineers">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="FkId" ColumnName="FkId" />
+                <ScalarProperty Name="alias" ColumnName="alias" />
+                <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UTLogs">
+            <EntityTypeMapping TypeName="MoonCakeCodeSampleModel.UTLog">
+              <MappingFragment StoreEntitySet="UTLog">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="alias" ColumnName="alias" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="LogAt" ColumnName="LogAt" />
+                <ScalarProperty Name="FkId" ColumnName="FkId" />
+                <ScalarProperty Name="UT" ColumnName="UT" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProcessViews">
+            <EntityTypeMapping TypeName="MoonCakeCodeSampleModel.ProcessView">
+              <MappingFragment StoreEntitySet="ProcessView">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="LogAT" ColumnName="LogAT" />
+                <ScalarProperty Name="FkId" ColumnName="FkId" />
+                <ScalarProperty Name="ProcessID" ColumnName="ProcessID" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
