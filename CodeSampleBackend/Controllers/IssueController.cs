@@ -30,13 +30,14 @@ namespace CodeSampleBackend.Controllers
         }
 
         // GET api/<controller>/5
-        public string Get(int id)
+        
+
+        public void Get(int id)
         {
-            return "value";
+           // DAL.DALIssue.GetNewCommits(3, Convert.ToDateTime("2017-01-17 21:53:34.000"));
         }
 
-    
-    
+
 
         // POST api/<controller>
         public void Post([FromBody]string value)

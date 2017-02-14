@@ -53,10 +53,10 @@ namespace CodeSampleBackend.DAL
             context = new MoonCakeCodeSampleEntities();
             return context.Issues.ToList<Issue>();
         }
-        public static List<Issue> GetNewCommits(int codeID)
+        public static List<Issue> GetNewIssue(int codeID,DateTime? takeTime)
         {
             context = new MoonCakeCodeSampleEntities();
-            return context.Issues.Where(c => c.CodeID == codeID).Take(2).ToList<Issue>();
+            return context.Issues.Where(c => c.CodeID == codeID&&c.CreateAt>=takeTime).ToList<Issue>();
         }
         public static Issue GetCommitByCreateAt(DateTime? createAt)
         {

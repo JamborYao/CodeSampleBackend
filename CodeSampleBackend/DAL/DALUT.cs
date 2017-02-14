@@ -27,7 +27,7 @@ namespace CodeSampleBackend.DAL
             context = new MoonCakeCodeSampleEntities();
             ut.LogAt = DateTime.UtcNow;
             context.UTLogs.Add(ut);
-
+            context.SaveChanges();
         }
     }
 }

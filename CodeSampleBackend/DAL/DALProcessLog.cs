@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CodeSampleBackend;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -27,6 +28,18 @@ namespace CodeSampleBackend.DAL
             context = new MoonCakeCodeSampleEntities();
             return context.Processes.ToList<Process>();
 
+        }
+
+        public static string GetIssueIdByName(int id)
+        {
+            context = new MoonCakeCodeSampleEntities();
+            return context.IssueStatus.Where(c => c.id == id).First().name;
+        }
+
+        public static List<IssueStatu> GetAllIssueStatus()
+        {
+            context = new MoonCakeCodeSampleEntities();
+            return context.IssueStatus.ToList<IssueStatu>();
         }
     }
 }

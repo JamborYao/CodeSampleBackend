@@ -53,10 +53,10 @@ namespace CodeSampleBackend.DAL
             context = new MoonCakeCodeSampleEntities();
             return context.Commits.ToList<Commit>();
         }
-        public static List<Commit> GetNewCommits(string githubUrl)
+        public static List<Commit> GetNewCommits(string githubUrl,DateTime? takeTime)
         {
             context = new MoonCakeCodeSampleEntities();
-            return context.Commits.Where(c=>c.GitHubUrl==githubUrl).Take(2).ToList<Commit>();
+            return context.Commits.Where(c=>c.GitHubUrl==githubUrl&&c.CreateAt>= takeTime).ToList<Commit>();
         }
         public static Commit GetCommitByCreateAt(DateTime? createAt)
         {
@@ -65,5 +65,6 @@ namespace CodeSampleBackend.DAL
             return commit;
           
         }
+       
     }
 }

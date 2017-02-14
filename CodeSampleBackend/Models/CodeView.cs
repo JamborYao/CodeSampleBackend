@@ -51,7 +51,7 @@ namespace CodeSampleBackend.Models
         public List<Commit> NewCommit { get; set; }
 
         [JsonProperty(PropertyName = "new_issue")]
-        public List<Issue> NewIssue { get; set; }
+        public List<IssueView> NewIssue { get; set; }
 
         [JsonProperty(PropertyName = "alias")]
         public string Alias { get; set; }

@@ -16,6 +16,9 @@
         <EntityTypeShape EntityType="MoonCakeCodeSampleModel.SupportEngineer" Width="1.5" PointX="0.75" PointY="7.75" />
         <EntityTypeShape EntityType="MoonCakeCodeSampleModel.UTLog" Width="1.5" PointX="2.75" PointY="7.75" />
         <EntityTypeShape EntityType="MoonCakeCodeSampleModel.ProcessView" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="MoonCakeCodeSampleModel.IssueStatu" Width="1.5" PointX="9.375" PointY="3.75" />
+        <EntityTypeShape EntityType="MoonCakeCodeSampleModel.IssueStatusLog" Width="1.5" PointX="5.375" PointY="9.75" />
+        <EntityTypeShape EntityType="MoonCakeCodeSampleModel.IssueView" Width="1.5" PointX="9.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

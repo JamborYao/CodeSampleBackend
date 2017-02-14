@@ -36,5 +36,8 @@ namespace CodeSampleBackend
         public virtual DbSet<SupportEngineer> SupportEngineers { get; set; }
         public virtual DbSet<UTLog> UTLogs { get; set; }
         public virtual DbSet<ProcessView> ProcessViews { get; set; }
+        public virtual DbSet<IssueStatu> IssueStatus { get; set; }
+        public virtual DbSet<IssueStatusLog> IssueStatusLogs { get; set; }
+        public virtual DbSet<IssueView> IssueViews { get; set; }
     }
 }

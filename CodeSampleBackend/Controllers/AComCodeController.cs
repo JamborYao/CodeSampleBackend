@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Threading;
 using System.Web.Http.Cors;
+using System.Web.Http.Description;
 
 namespace CodeSampleBackend.Controllers
 {
@@ -17,13 +18,14 @@ namespace CodeSampleBackend.Controllers
     public class AComCodeController : ApiController
     {
         // GET api/<controller>
-        public PageCodeView Get(int page,int limit)
+        [ResponseType(typeof(PageCodeView))]
+        public IHttpActionResult Get(int page,int limit)
 
         {
            // Stopwatch test= new StopWatch();
             var pageview = DAL.DALCodeView.GetCodeView(DAL.DALCode.GetAllCode(), page, limit);
 
-            return pageview;
+            return Ok(pageview);
         }
 
         //[Route("api/acomcode")]

@@ -239,6 +239,7 @@
     <Compile Include="CodeOwnership.cs">
       <DependentUpon>CodeEF.tt</DependentUpon>
     </Compile>
+    <Compile Include="ComFunc\Basic.cs" />
     <Compile Include="ComFunc\CodeHelper.cs" />
     <Compile Include="ComFunc\Constants.cs" />
     <Compile Include="ComFunc\ErrorLog.cs" />
@@ -253,6 +254,8 @@
     <Compile Include="Controllers\CommitController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IssueController.cs" />
+    <Compile Include="Controllers\IssueStatusController.cs" />
+    <Compile Include="Controllers\IssueViewsController.cs" />
     <Compile Include="Controllers\PlatformController.cs" />
     <Compile Include="Controllers\ProcessController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -263,11 +266,22 @@
     <Compile Include="DAL\DALCodeView.cs" />
     <Compile Include="DAL\DALCommit.cs" />
     <Compile Include="DAL\DALIssue.cs" />
+    <Compile Include="DAL\DALIssueStatusLog.cs" />
     <Compile Include="DAL\DALProcessLog.cs" />
+    <Compile Include="DAL\DALIssueView.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Issue.cs">
+      <DependentUpon>CodeEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IssueStatu.cs">
+      <DependentUpon>CodeEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IssueStatusLog.cs">
+      <DependentUpon>CodeEF.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IssueView.cs">
       <DependentUpon>CodeEF.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />

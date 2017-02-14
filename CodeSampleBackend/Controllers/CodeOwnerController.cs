@@ -4,9 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace CodeSampleBackend.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class CodeOwnerController : ApiController
     {
         // GET api/<controller>
@@ -16,9 +18,9 @@ namespace CodeSampleBackend.Controllers
         }
 
         // GET api/<controller>/5
-        public string Get(int id)
+        public string Get(int fkid, string type)
         {
-            return "value";
+            return DAL.DALCodeOwner.GetAlias(fkid,type);
         }
 
         // POST api/<controller>

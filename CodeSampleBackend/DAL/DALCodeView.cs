@@ -27,13 +27,13 @@ namespace CodeSampleBackend.DAL
                 view.GitHubUrl = item.GitHubUrl;
                 view.LastUpateDate = item.LastUpdateDate;
                 view.Link = item.Link;
-                view.NewCommit =DAL.DALCommit.GetNewCommits(item.GitHubUrl);
-                view.NewIssue = DAL.DALIssue.GetNewCommits(272);
+                view.NewCommit =DAL.DALCommit.GetNewCommits(item.GitHubUrl,DALCodeOwner.GetTakenTime(item.id,"code"));
+                view.NewIssue = DAL.DALIssueView.GetNewIssueView(item.id, DALCodeOwner.GetTakenTime(item.id, "code"));
                 view.Platforms = ConvertPlatformProductToList(item.Platform);
                 view.Products = ConvertPlatformProductToList(item.Products);
                 view.SyncDate = item.SyncDate;
                 view.Title = item.Title;
-                view.Alias = DAL.DALCodeOwner.GetAliasByCode(item.id,"Code");
+                view.Alias = DAL.DALCodeOwner.GetAlias(item.id,"Code");
                 view.Process = DAL.DALProcessLog.GetLatestProcess(item.id,"Code");
                 views.Add(view);
             }
