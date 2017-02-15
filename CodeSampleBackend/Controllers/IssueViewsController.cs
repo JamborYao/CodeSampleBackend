@@ -17,6 +17,11 @@ namespace CodeSampleBackend.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class IssueViewsController : ApiController
     {
+        private DAL.DALProcessLog dal;
+        public IssueViewsController()
+        {
+            dal = new DAL.DALProcessLog();
+        }
         private MoonCakeCodeSampleEntities db = new MoonCakeCodeSampleEntities();
 
         // GET: api/IssueViews

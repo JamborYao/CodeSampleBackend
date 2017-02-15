@@ -12,54 +12,35 @@ namespace CodeSampleBackend.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class PlatformController : ApiController
     {
+        private DAL.DALProcessLog dal;
+        public PlatformController()
+        {
+            dal = new DAL.DALProcessLog();
+        }
         // GET api/<controller>
         public IEnumerable<Platform> Get()
         {
-            MoonCakeCodeSampleEntities context = new MoonCakeCodeSampleEntities();
-            return context.Platforms;
+            return dal.GetAll<Platform>();
         }
 
         // GET api/<controller>/5
-        public Platform Get(int id)
+        public List<Platform> Get(int id)
         {
-            MoonCakeCodeSampleEntities context = new MoonCakeCodeSampleEntities();
-
-            return context.Platforms.Where(c => c.id == id).FirstOrDefault();
+            return dal.GetEntities<Platform>(c => c.id == id);
         }
 
         // POST api/<controller>
         public void Post([FromBody]string value)
         {
+        
             List<Platform> platforms = HttpHelper.GetPlatforms();
-            MoonCakeCodeSampleEntities context = new MoonCakeCodeSampleEntities();
+           
             foreach (var item in platforms)
             {
-
-                if (context.Platforms.Any(c => c.Name == item.Name))
-                {
-                    var platform = context.Platforms.Where(c => c.Name == item.Name).FirstOrDefault();
-                    platform.Value = item.Value;
-                    context.Entry<Platform>(platform).State = System.Data.Entity.EntityState.Modified;
-
-                }
-                else
-                {
-                    context.Platforms.Attach(item);
-                    context.Entry<Platform>(item).State = System.Data.Entity.EntityState.Added;
-                }
-                context.SaveChanges();
-
+                dal.AddOrUpdate<Platform>(item, c => c.Name == item.Name, Basic.ToDictionary<Platform>(item));
             }
         }
 
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
-        }
+       
     }
 }

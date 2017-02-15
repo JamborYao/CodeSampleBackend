@@ -13,6 +13,11 @@ namespace CodeSampleBackend.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ProductController : ApiController
     {
+        private DAL.DALProcessLog dal;
+        public ProductController()
+        {
+            dal = new DAL.DALProcessLog();
+        }
         // GET api/<controller>
         public IEnumerable<Product> Get()
         {
@@ -33,24 +38,9 @@ namespace CodeSampleBackend.Controllers
         public void Post([FromBody]string value)
         {
             List<Product> products = HttpHelper.GetProducts();
-            MoonCakeCodeSampleEntities context = new MoonCakeCodeSampleEntities();
             foreach (var item in products)
             {
-
-                if (context.Products.Any(c => c.Name == item.Name))
-                {
-                    var product = context.Products.Where(c => c.Name == item.Name).FirstOrDefault();
-                    product.Value = item.Value;
-                    context.Entry<Product>(product).State = System.Data.Entity.EntityState.Modified;
-
-                }
-                else
-                {
-                    context.Products.Attach(item);
-                    context.Entry<Product>(item).State = System.Data.Entity.EntityState.Added;
-                }
-                context.SaveChanges();
-
+                dal.AddOrUpdate<Product>(item, c => c.Name == item.Name, Basic.ToDictionary<Product>(item));
             }
         }
 

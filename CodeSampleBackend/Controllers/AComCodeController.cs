@@ -28,14 +28,7 @@ namespace CodeSampleBackend.Controllers
             return Ok(pageview);
         }
 
-        //[Route("api/acomcode")]
-        //public PageCodeView Get()
-        //{
-        //    int page = -1,limit=-1;
-        //    var pageview = DAL.DALCodeView.GetCodeView(DAL.DALCode.GetAllCode(), page, limit);
-        //    return pageview;//JsonConvert.SerializeObject(pageview);
-        
-        //}
+       
         public string Post()
         {
             int i = 1;

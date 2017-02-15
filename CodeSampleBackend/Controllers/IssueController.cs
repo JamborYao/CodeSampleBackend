@@ -13,53 +13,39 @@ namespace CodeSampleBackend.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class IssueController : ApiController
     {
+        private DAL.DALProcessLog dal;
+        public IssueController()
+        {
+            dal = new DAL.DALProcessLog();
+        }
         public MoonCakeCodeSampleEntities context;
-        
-        // GET api/<controller>
-        public List<Issue> Get()
-        {
-            context = new MoonCakeCodeSampleEntities();
-            var entities = context.Issues;
-            if (entities != null)
-            {
-                return entities.ToList<Issue>();
-            }
-            else {
-                return null;
-            }
-        }
-
-        // GET api/<controller>/5
-        
-
-        public void Get(int id)
-        {
-           // DAL.DALIssue.GetNewCommits(3, Convert.ToDateTime("2017-01-17 21:53:34.000"));
-        }
 
 
 
+
+
+        /// <summary>
+        /// sync all issues to database
+        /// </summary>
+        /// <param name="value"></param>
         // POST api/<controller>
         public void Post([FromBody]string value)
         {
 
-            var codes = DAL.DALCode.GetAllCode();
+            var codes = dal.GetAll<Code>();
             foreach (var item in codes)
             {
-                List<Issue> commits =DAL.DALIssue. GetGitHubIssueEntity(GitHubHelper.GetGitHubIssueObject(item.GitHubUrl), item.id);
-              
-                DAL.DALIssue.AddCommitsIfNotExistedElseUpdate(commits);
+                List<Issue> issues = DAL.DALIssue.GetGitHubIssueEntity(GitHubHelper.GetGitHubIssueObject(item.GitHubUrl), item.id);
+
+                foreach (var issue in issues)
+                {
+
+                    dal.AddOrUpdate<Issue>(issue, c => c.CreateAt == issue.CreateAt, Basic.ToDictionary<Issue>(issue));
+                }
+
             }
 
         }
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
 
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
-        }
     }
 }

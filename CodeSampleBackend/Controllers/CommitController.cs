@@ -14,22 +14,17 @@ namespace CodeSampleBackend.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class CommitController : ApiController
     {
+        private DAL.DALProcessLog dal;
+        public CommitController()
+        {
+            dal = new DAL.DALProcessLog();
+        }
         public MoonCakeCodeSampleEntities context;
-        // GET api/<controller>
-        [ResponseType(typeof(CommitView))]
-        public IHttpActionResult GetNewCommit()
-        {
-            return Ok(DAL.DALCommit.GetAllCommitsView());
-        }
-
-        // GET api/<controller>/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-    
-
         
+        /// <summary>
+        /// sync commit to database
+        /// </summary>
+        /// <param name="value"></param>
         // POST api/<controller>
         public void Post([FromBody]string value)
         {

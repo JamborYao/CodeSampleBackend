@@ -11,11 +11,11 @@ namespace CodeSampleBackend.ComFunc
 {
     public class BasicCRUD : ICRUD 
     {
-        private MoonCakeCodeSampleEntities context;
+      
         public BasicCRUD() {
             context = new MoonCakeCodeSampleEntities();
         }
-
+        public MoonCakeCodeSampleEntities context { get; set; }
         public virtual void Add<T>(T obj) where T : class
         {
             this.context.Entry<T>(obj).State = EntityState.Added;

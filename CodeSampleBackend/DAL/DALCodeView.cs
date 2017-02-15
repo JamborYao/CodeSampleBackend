@@ -1,4 +1,5 @@
-﻿using CodeSampleBackend.Models;
+﻿using CodeSampleBackend.ComFunc;
+using CodeSampleBackend.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace CodeSampleBackend.DAL
     {
         public static PageCodeView GetCodeView(List<Code> codes,int page,int limit)
         {
+            BasicCRUD dal = new BasicCRUD();
             PageCodeView pageview = new PageCodeView();
             pageview.Total = codes.Count();
             List<CodeView> views = new List<CodeView>();
@@ -27,7 +29,8 @@ namespace CodeSampleBackend.DAL
                 view.GitHubUrl = item.GitHubUrl;
                 view.LastUpateDate = item.LastUpdateDate;
                 view.Link = item.Link;
-                view.NewCommit =DAL.DALCommit.GetNewCommitsView(item.GitHubUrl,DALCodeOwner.GetTakenTime(item.id,"code"));
+                var takeTime = DALCodeOwner.GetTakenTime(item.id, "code");
+                view.NewCommit =Basic.ConvertCommitToCommitView(dal.GetEntities<Commit>(c => c.GitHubUrl == item.GitHubUrl && c.CreateAt >= takeTime),dal);// ( DAL.DALCommit.GetNewCommitsView(item.GitHubUrl,DALCodeOwner.GetTakenTime(item.id,"code"));
                 view.NewIssue = DAL.DALIssueView.GetNewIssueView(item.id, DALCodeOwner.GetTakenTime(item.id, "code"));
                 view.Platforms = ConvertPlatformProductToList(item.Platform);
                 view.Products = ConvertPlatformProductToList(item.Products);

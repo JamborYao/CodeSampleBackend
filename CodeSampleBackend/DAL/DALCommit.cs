@@ -66,55 +66,18 @@ namespace CodeSampleBackend.DAL
             return commit;
 
         }
-        public static List<CommitView> GetNewCommitsView(string githubUrl, DateTime? takeTime)
-        {
-            context = new MoonCakeCodeSampleEntities();
-            var commits = context.Commits.Where(c => c.GitHubUrl == githubUrl && c.CreateAt >= takeTime).ToList<Commit>();
-            return ConvertCommitToCommitView(commits, context);
-        }
-        public static List<CommitView> GetAllCommitsView()
-        {
-            context = new MoonCakeCodeSampleEntities();
-            var commits = context.Commits.ToList<Commit>();
-            return ConvertCommitToCommitView(commits, context);
-        }
-        public static List<CommitView> ConvertCommitToCommitView(List<Commit> issues, MoonCakeCodeSampleEntities context)
-        {
-            List<CommitView> views = new List<CommitView>();
-            foreach (var item in issues)
-            {
-                CommitView view = new CommitView();
-                view.id = item.id;
-
-                view.CreateAt = item.CreateAt;
-                view.Author = item.Author;
-                view.CodeID = item.CodeID;
-                view.GitHubUrl = item.GitHubUrl;
-                view.id = item.id;
-                view.IsNew = item.IsNew;
-                view.Message = item.Message;
-                var process = DALProcessLog.GetLatestProcess(item.id, "commit");
-                view.Process = process;
-                view.PSha = item.PSha;
-                view.Sha = item.Sha;
-                view.Type = item.Author;
-                view.URL = item.URL;
-                var uts = context.UTLogs.Where(c => c.FkId == item.id && c.Type == "commit");
-                int? utValue = 0;
-                foreach (var ut in uts)
-                {
-                    utValue += ut.UT;
-                }
-                view.UT = utValue;
-                var aliasEntity = context.CodeOwnerships.Where(c => c.FkId == item.id && c.Type == "commit").OrderByDescending(p => p.LogAt).FirstOrDefault();
-                if (aliasEntity != null)
-                {
-                    view.Alias = aliasEntity.support_alias;
-                }
-                views.Add(view);
-            }
-
-            return views;
-        }
+        //public static List<CommitView> GetNewCommitsView(string githubUrl, DateTime? takeTime)
+        //{
+        //    context = new MoonCakeCodeSampleEntities();
+        //    var commits = context.Commits.Where(c => c.GitHubUrl == githubUrl && c.CreateAt >= takeTime).ToList<Commit>();
+        //    return ConvertCommitToCommitView(commits, context);
+        //}
+        //public static List<CommitView> GetAllCommitsView()
+        //{
+        //    context = new MoonCakeCodeSampleEntities();
+        //    var commits = context.Commits.ToList<Commit>();
+        //    return ConvertCommitToCommitView(commits, context);
+        //}
+       
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CodeSampleBackend.ComFunc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -11,32 +12,33 @@ namespace CodeSampleBackend.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class CodeOwnerController : ApiController
     {
-        // GET api/<controller>
-        public IEnumerable<string> Get()
+        private DAL.DALProcessLog dal;
+        public CodeOwnerController()
         {
-            return new string[] { "value1", "value2" };
+            dal = new DAL.DALProcessLog();
         }
 
         // GET api/<controller>/5
-        public string Get(int fkid, string type)
+        public IHttpActionResult Get(int fkid, string type)
         {
-            return DAL.DALCodeOwner.GetAlias(fkid,type);
+            var entities = dal.GetEntities<CodeOwnership>(c => c.FkId == fkid && c.Type == type).OrderByDescending(c => c.LogAt).FirstOrDefault();
+            if (entities != null)
+            {
+                return Ok(entities.support_alias);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         // POST api/<controller>
         public void Post([FromBody]CodeOwnership value)
         {
-            DAL.DALCodeOwner.AddCodeOwner(value);
+            dal.AddOrUpdate<CodeOwnership>(value, c => c.FkId == value.FkId && c.Type == value.Type, Basic.ToDictionary<CodeOwnership>(value));
         }
 
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
 
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
-        }
+
     }
 }

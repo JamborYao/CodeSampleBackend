@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CodeSampleBackend.DAL;
+using CodeSampleBackend.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -21,6 +23,43 @@ namespace CodeSampleBackend.ComFunc
             }
 
             return dictionary;
+        } public static List<CommitView> ConvertCommitToCommitView(List<Commit> issues, BasicCRUD dal)
+        {
+            List<CommitView> views = new List<CommitView>();
+            foreach (var item in issues)
+            {
+                CommitView view = new CommitView();
+                view.id = item.id;
+
+                view.CreateAt = item.CreateAt;
+                view.Author = item.Author;
+                view.CodeID = item.CodeID;
+                view.GitHubUrl = item.GitHubUrl;
+                view.id = item.id;
+                view.IsNew = item.IsNew;
+                view.Message = item.Message;
+                var process = DALProcessLog.GetLatestProcess(item.id, "commit");
+                view.Process = process;
+                view.PSha = item.PSha;
+                view.Sha = item.Sha;
+                view.Type = item.Author;
+                view.URL = item.URL;
+                var uts = dal.GetEntities<UTLog>(c => c.FkId == item.id && c.Type == "commit");// context.UTLogs.Where(c => c.FkId == item.id && c.Type == "commit");
+                int? utValue = 0;
+                foreach (var ut in uts)
+                {
+                    utValue += ut.UT;
+                }
+                view.UT = utValue;
+                var aliasEntity = dal.GetEntities<CodeOwnership>(c => c.FkId == item.id && c.Type == "commit").OrderByDescending(p => p.LogAt).FirstOrDefault();
+                if (aliasEntity != null)
+                {
+                    view.Alias = aliasEntity.support_alias;
+                }
+                views.Add(view);
+            }
+
+            return views;
         }
     }
 }

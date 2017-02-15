@@ -32,11 +32,7 @@ namespace CodeSampleBackend.Controllers
             return Ok(str);
         }
 
-        // GET: api/IssueStatus/5
-        public string Get(int id)
-        {
-            return "value";
-        }
+       
 
         // POST: api/IssueStatus
         public IHttpActionResult Post([FromBody]IssueStatusLog value)
@@ -45,14 +41,6 @@ namespace CodeSampleBackend.Controllers
             return Ok();
         }
 
-        // PUT: api/IssueStatus/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE: api/IssueStatus/5
-        public void Delete(int id)
-        {
-        }
+       
     }
 }

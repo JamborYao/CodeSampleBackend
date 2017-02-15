@@ -11,32 +11,24 @@ namespace CodeSampleBackend.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class UTController : ApiController
     {
-        // GET api/<controller>
-        public IEnumerable<string> Get()
+        private DAL.DALProcessLog dal;
+        public UTController()
         {
-            return new string[] { "value1", "value2" };
+            dal = new DAL.DALProcessLog();
         }
+       
 
         // GET api/<controller>/5
         public List<UTLog> Get(int id,string type)
         {
-            return DAL.DALUT.GetUT(id,type);
+            return dal.GetEntities<UTLog>(c=>c.FkId==id&&c.Type==type);
         }
 
         // POST api/<controller>
         public void Post([FromBody]UTLog value)
         {
-           DAL.DALUT.AddUT(value);
+            dal.Add<UTLog>(value);
         }
 
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
-        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Swashbuckle.Application;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,7 +19,7 @@ namespace CodeSampleBackend
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
+          
         }
     }
 }

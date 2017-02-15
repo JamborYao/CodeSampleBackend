@@ -9,6 +9,11 @@ namespace CodeSampleBackend.Controllers
 {
     public class HomeController : Controller
     {
+        private DAL.DALProcessLog dal;
+        public HomeController()
+        {
+            dal = new DAL.DALProcessLog();
+        }
         public ActionResult Index()
         {
             HttpHelper.GetPlatforms();

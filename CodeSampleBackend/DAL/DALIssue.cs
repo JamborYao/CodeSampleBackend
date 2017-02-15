@@ -9,44 +9,44 @@ namespace CodeSampleBackend.DAL
 {
     public class DALIssue
     {
-        public static bool AddCommitsIfNotExistedElseUpdate(List<Issue> issues)
-        {
-            try
-            {
-                context = new MoonCakeCodeSampleEntities();
-                foreach (var item in issues)
-                {
-                    var issue = GetCommitByCreateAt(item.CreateAt);
-                    if (issue != null)
-                    {
-                        issue.CreateAt = item.CreateAt;
-                        issue.Author = item.Author;
-                        issue.Title = item.Title;
-                        issue.Number = item.Number;
-                        issue.Url = item.Url;
-                        issue.UnicodeId = item.UnicodeId;
-                        issue.Replies =item.Replies;
-                        issue.CodeID =item.CodeID ;
-                        issue.Body = item.Body;
-                        issue.Type = item.Type;
-                    }
-                    else
-                    {
-                        context.Issues.Add(item);
-                    }
-                    context.SaveChanges();
+        //public static bool AddCommitsIfNotExistedElseUpdate(List<Issue> issues)
+        //{
+        //    try
+        //    {
+        //        context = new MoonCakeCodeSampleEntities();
+        //        foreach (var item in issues)
+        //        {
+        //            var issue = GetCommitByCreateAt(item.CreateAt);
+        //            if (issue != null)
+        //            {
+        //                issue.CreateAt = item.CreateAt;
+        //                issue.Author = item.Author;
+        //                issue.Title = item.Title;
+        //                issue.Number = item.Number;
+        //                issue.Url = item.Url;
+        //                issue.UnicodeId = item.UnicodeId;
+        //                issue.Replies =item.Replies;
+        //                issue.CodeID =item.CodeID ;
+        //                issue.Body = item.Body;
+        //                issue.Type = item.Type;
+        //            }
+        //            else
+        //            {
+        //                context.Issues.Add(item);
+        //            }
+        //            context.SaveChanges();
 
 
-                }
-                return true;
-            }
-            catch (Exception e)
-            {
-                ErrorLog.WriteError(e.Message, "AddCommitsIfNotExistedElseUpdate");
-                return false; ;
-            }
+        //        }
+        //        return true;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        ErrorLog.WriteError(e.Message, "AddCommitsIfNotExistedElseUpdate");
+        //        return false; ;
+        //    }
 
-        }
+        //}
         public static MoonCakeCodeSampleEntities context;
         public static List<Issue> GetAllIssues()
         {
