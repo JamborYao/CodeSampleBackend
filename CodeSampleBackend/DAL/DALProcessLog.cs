@@ -1,4 +1,5 @@
 ﻿using CodeSampleBackend;
+using CodeSampleBackend.ComFunc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Web;
 
 namespace CodeSampleBackend.DAL
 {
-    public class DALProcessLog
+    public class DALProcessLog: BasicCRUD
     {
         public static MoonCakeCodeSampleEntities context;
         public static string GetLatestProcess(int codeID,string type)
@@ -23,12 +24,21 @@ namespace CodeSampleBackend.DAL
             }
         }
 
-        public static List<Process> GetAllProcess()
+        public static string GetLatestIssueProcess(int issueId)
         {
             context = new MoonCakeCodeSampleEntities();
-            return context.Processes.ToList<Process>();
-
+            var processLog = context.IssueStatusLogs.Where(c => c.IssueID == issueId).OrderByDescending(p => p.LogAt).FirstOrDefault();
+            if (processLog != null)
+            {
+                return context.IssueStatus.Where(c=>c.id== processLog.IssueStatusID).First().name;
+            }
+            else
+            {
+                return null;
+            }
         }
+
+      
 
         public static string GetIssueIdByName(int id)
         {
@@ -41,5 +51,6 @@ namespace CodeSampleBackend.DAL
             context = new MoonCakeCodeSampleEntities();
             return context.IssueStatus.ToList<IssueStatu>();
         }
+      
     }
 }

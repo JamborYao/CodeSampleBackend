@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CodeSampleBackend.ComFunc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -12,11 +13,23 @@ namespace CodeSampleBackend.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class IssueStatusController : ApiController
     {
-        [ResponseType(typeof(IssueStatu))]
+        private DAL.DALProcessLog dal;
+        public IssueStatusController()
+        {
+            dal = new DAL.DALProcessLog();
+        }
+       
         // GET: api/IssueStatus
         public IHttpActionResult Get()
         {
-            return Ok(DAL.DALProcessLog.GetAllIssueStatus());
+            string str = "";
+            foreach (var item in dal.GetAll<IssueStatu>())
+            {
+                str += item.name + ",";
+            }
+            str = str.Substring(0, str.Length - 1);
+            
+            return Ok(str);
         }
 
         // GET: api/IssueStatus/5
@@ -28,7 +41,7 @@ namespace CodeSampleBackend.Controllers
         // POST: api/IssueStatus
         public IHttpActionResult Post([FromBody]IssueStatusLog value)
         {
-            DAL.DALIssueStatusLog.AddIssueStatus(value);
+            dal.AddOrUpdate<IssueStatusLog>(value,c=>c.IssueID==value.IssueID, Basic.ToDictionary<IssueStatusLog>(value));
             return Ok();
         }
 

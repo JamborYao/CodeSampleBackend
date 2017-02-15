@@ -1,28 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 
 namespace CodeSampleBackend.ComFunc
 {
     public class Basic
     {
-        /// <summary>
-        /// if first <= second then return true else return false
-        /// </summary>
-        /// <param name="first"></param>
-        /// <param name="second"></param>
-        /// <returns></returns>
-        public static bool CompareDateTime(DateTime? createTime, DateTime? TakenTime)
+        public static Dictionary<string, object> ToDictionary<T>(T list)
         {
-            if ((createTime - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).Value.Seconds >= (TakenTime - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).Value.Seconds)
+            Dictionary<string, object> dictionary = new Dictionary<string, object>();
+            Type type = typeof(T);
+            List<PropertyInfo> propertyList = type.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance).ToList();
+
+            foreach (PropertyInfo propertyInfo in propertyList)
             {
-                return true;
+                if (propertyInfo.Name == "id") continue;
+                dictionary.Add(propertyInfo.Name, propertyInfo.GetValue(list, null));
             }
-            else
-            {
-                return false;
-            }
+
+            return dictionary;
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Http.Description;
 
 namespace CodeSampleBackend.Controllers
 {
@@ -15,18 +16,10 @@ namespace CodeSampleBackend.Controllers
     {
         public MoonCakeCodeSampleEntities context;
         // GET api/<controller>
-        public List<Commit> Get()
+        [ResponseType(typeof(CommitView))]
+        public IHttpActionResult GetNewCommit()
         {
-            context = new MoonCakeCodeSampleEntities();
-            var entities = context.Commits;
-            if (entities != null)
-            {
-                return entities.ToList<Commit>();
-            }
-            else
-            {
-                return null;
-            }
+            return Ok(DAL.DALCommit.GetAllCommitsView());
         }
 
         // GET api/<controller>/5

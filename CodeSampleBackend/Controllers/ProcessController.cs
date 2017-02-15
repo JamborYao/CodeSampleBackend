@@ -11,11 +11,16 @@ namespace CodeSampleBackend.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ProcessController : ApiController
     {
+        public ProcessController()
+        {
+            dal = new DAL.DALProcessLog();
+        }
+        private DAL.DALProcessLog dal;
         // GET api/<controller>
         public string Get()
         {
             string str = "";
-            foreach (var item in DAL.DALProcessLog.GetAllProcess())
+            foreach (var item in dal.GetAll<Process>())
             {
                 str +=  item.name+",";
             }
@@ -24,27 +29,22 @@ namespace CodeSampleBackend.Controllers
         }
 
         // GET api/<controller>/5
-        public Process[] Get(int id)
+        public IHttpActionResult Get(int id)
         {
-           
-            var processes =  DAL.DALProcessLog.GetAllProcess();
-
-            return processes.ToArray();
+            var result = dal.GetEntities<Process>(c=>c.id==id);
+            return Ok(result);
         }
 
         // POST api/<controller>
-        public void Post([FromBody]string value)
+        public void Post([FromBody]ProcessLog value)
         {
+            dal.Add<ProcessLog>(value);
         }
-
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
+        
         // DELETE api/<controller>/5
         public void Delete(int id)
         {
+            dal.Delete<Process>(dal.GetEntities<Process>(c=>c.id==id));
         }
     }
 }
