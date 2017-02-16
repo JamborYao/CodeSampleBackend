@@ -12,10 +12,10 @@ namespace CodeSampleBackend.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class CodeOwnerController : ApiController
     {
-        private DAL.DALProcessLog dal;
+        private BasicCRUD dal;
         public CodeOwnerController()
         {
-            dal = new DAL.DALProcessLog();
+            dal = new BasicCRUD();
         }
 
         // GET api/<controller>/5

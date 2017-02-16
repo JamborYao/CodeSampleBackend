@@ -17,14 +17,26 @@ namespace CodeSampleBackend.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class AComCodeController : ApiController
     {
+        private BasicCRUD dal;
+        public AComCodeController()
+        {
+            dal = new BasicCRUD();
+        }
+
+        /// <summary>
+        /// test documation
+        /// </summary>
+        /// <returns></returns>
         // GET api/<controller>
         [ResponseType(typeof(PageCodeView))]
-        public IHttpActionResult Get(int page,int limit)
-
+        public IHttpActionResult Get()
         {
-           // Stopwatch test= new StopWatch();
-            var pageview = DAL.DALCodeView.GetCodeView(DAL.DALCode.GetAllCode(), page, limit);
-
+            var paras = ControllerContext.Request.GetQueryNameValuePairs();
+            string page = paras.Where(c => c.Key == "page").FirstOrDefault().Value;
+            string limit = paras.Where(c => c.Key == "limit").FirstOrDefault().Value;
+            string product = paras.Where(c => c.Key == "product").FirstOrDefault().Value;
+            string platform = paras.Where(c => c.Key == "platform").FirstOrDefault().Value;
+            var pageview = DAL.DALGenerateView.GetCodeView(dal.GetAll<Code>(), page, limit,product,platform);
             return Ok(pageview);
         }
 

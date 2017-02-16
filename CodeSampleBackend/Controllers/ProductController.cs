@@ -13,10 +13,10 @@ namespace CodeSampleBackend.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ProductController : ApiController
     {
-        private DAL.DALProcessLog dal;
+        private BasicCRUD dal;
         public ProductController()
         {
-            dal = new DAL.DALProcessLog();
+            dal = new BasicCRUD();
         }
         // GET api/<controller>
         public IEnumerable<Product> Get()

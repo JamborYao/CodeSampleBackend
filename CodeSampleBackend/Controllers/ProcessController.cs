@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CodeSampleBackend.ComFunc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -13,9 +14,9 @@ namespace CodeSampleBackend.Controllers
     {
         public ProcessController()
         {
-            dal = new DAL.DALProcessLog();
+            dal = new BasicCRUD();
         }
-        private DAL.DALProcessLog dal;
+        private BasicCRUD dal;
         // GET api/<controller>
         public string Get()
         {

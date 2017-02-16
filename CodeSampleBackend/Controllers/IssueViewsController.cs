@@ -11,23 +11,32 @@ using System.Web.Http.Description;
 using CodeSampleBackend;
 using System.Web.Http.Cors;
 using CodeSampleBackend.Models;
+using CodeSampleBackend.ComFunc;
 
 namespace CodeSampleBackend.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class IssueViewsController : ApiController
     {
-        private DAL.DALProcessLog dal;
+        private BasicCRUD dal;
         public IssueViewsController()
         {
-            dal = new DAL.DALProcessLog();
+            dal = new BasicCRUD();
         }
-        private MoonCakeCodeSampleEntities db = new MoonCakeCodeSampleEntities();
+
 
         // GET: api/IssueViews
         public List<IssueView> GetIssueViews()
         {
-            return DAL.DALIssueView.GetAllIssueView();
+            var paras = ControllerContext.Request.GetQueryNameValuePairs();
+            var idList= paras.Where(c => c.Key == "id").FirstOrDefault();
+            //string id, taken;
+            //if (idList != null)
+            //{
+            //    id = idList.Value;
+            //}
+            //string taken = paras.Where(c => c.Key == "taken").FirstOrDefault().Value;
+            return Basic.ConvertIssueToIssueView(dal.GetAll<Issue>(), dal);
         }
 
        

@@ -14,10 +14,10 @@ namespace CodeSampleBackend.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class CommitController : ApiController
     {
-        private DAL.DALProcessLog dal;
+        private BasicCRUD dal;
         public CommitController()
         {
-            dal = new DAL.DALProcessLog();
+            dal = new BasicCRUD();
         }
         public MoonCakeCodeSampleEntities context;
         
@@ -28,18 +28,21 @@ namespace CodeSampleBackend.Controllers
         // POST api/<controller>
         public void Post([FromBody]string value)
         {
-           
-            var codes =DAL.DALCode.GetAllCode();
+
+            var codes = dal.GetAll<Code>();
             foreach (var item in codes)
             {
-                List<Commit> commits =  GitHubHelper.GetGitHubCommitEntity(GitHubHelper.GetGitHubCommitObject(item.GitHubUrl),item.id);
-                foreach (var i in commits)
+                List<Commit> commits = GitHubHelper.GetGitHubCommitEntity(GitHubHelper.GetGitHubCommitObject(item.GitHubUrl), item.id);
+
+                foreach (var commit in commits)
                 {
-                    i.GitHubUrl = item.GitHubUrl; 
+
+                    commit.GitHubUrl = item.GitHubUrl;
+
+                    dal.AddOrUpdate<Commit>(commit, c => c.CreateAt == commit.CreateAt, Basic.ToDictionary<Commit>(commit));
                 }
-                DAL.DALCommit.AddCommitsIfNotExistedElseUpdate(commits);
+               
             }
-          
         }
 
 

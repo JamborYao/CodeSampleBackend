@@ -9,10 +9,10 @@ namespace CodeSampleBackend.Controllers
 {
     public class HomeController : Controller
     {
-        private DAL.DALProcessLog dal;
+        private BasicCRUD dal;
         public HomeController()
         {
-            dal = new DAL.DALProcessLog();
+            dal = new BasicCRUD();
         }
         public ActionResult Index()
         {

@@ -144,17 +144,6 @@
 warning 6002: The table/view 'codesample.dbo.IssueView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <!--Errors Found During Generation:
 warning 6002: The table/view 'codesample.dbo.ProcessView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="ProcessView">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" Nullable="false" />
-          <Property Name="ProcessID" Type="int" />
-          <Property Name="FkId" Type="int" />
-          <Property Name="LogAT" Type="datetime" />
-          <Property Name="Type" Type="nvarchar" MaxLength="50" />
-          <Property Name="name" Type="nvarchar" MaxLength="50" />
-        </EntityType>
         <EntityContainer Name="MoonCakeCodeSampleModelStoreContainer">
           <EntitySet Name="Code" EntityType="Self.Code" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CodeOwnership" EntityType="Self.CodeOwnership" Schema="dbo" store:Type="Tables" />
@@ -168,16 +157,6 @@ warning 6002: The table/view 'codesample.dbo.ProcessView' does not have a primar
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SupportEngineers" EntityType="Self.SupportEngineers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UTLog" EntityType="Self.UTLog" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ProcessView" EntityType="Self.ProcessView" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [ProcessView].[id] AS [id], 
-    [ProcessView].[ProcessID] AS [ProcessID], 
-    [ProcessView].[FkId] AS [FkId], 
-    [ProcessView].[LogAT] AS [LogAT], 
-    [ProcessView].[Type] AS [Type], 
-    [ProcessView].[name] AS [name]
-    FROM [dbo].[ProcessView] AS [ProcessView]</DefiningQuery>
-          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -194,7 +173,6 @@ warning 6002: The table/view 'codesample.dbo.ProcessView' does not have a primar
           <EntitySet Name="Products" EntityType="MoonCakeCodeSampleModel.Product" />
           <EntitySet Name="SupportEngineers" EntityType="MoonCakeCodeSampleModel.SupportEngineer" />
           <EntitySet Name="UTLogs" EntityType="MoonCakeCodeSampleModel.UTLog" />
-          <EntitySet Name="ProcessViews" EntityType="MoonCakeCodeSampleModel.ProcessView" />
           <EntitySet Name="IssueStatus" EntityType="MoonCakeCodeSampleModel.IssueStatu" />
           <EntitySet Name="IssueStatusLogs" EntityType="MoonCakeCodeSampleModel.IssueStatusLog" />
         </EntityContainer>
@@ -315,17 +293,6 @@ warning 6002: The table/view 'codesample.dbo.ProcessView' does not have a primar
           <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="alias" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="ProcessView">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="ProcessID" Type="Int32" />
-          <Property Name="FkId" Type="Int32" />
-          <Property Name="LogAT" Type="DateTime" Precision="3" />
-          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="IssueStatu">
           <Key>
@@ -474,18 +441,6 @@ warning 6002: The table/view 'codesample.dbo.ProcessView' does not have a primar
                 <ScalarProperty Name="LogAt" ColumnName="LogAt" />
                 <ScalarProperty Name="FkId" ColumnName="FkId" />
                 <ScalarProperty Name="UT" ColumnName="UT" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ProcessViews">
-            <EntityTypeMapping TypeName="MoonCakeCodeSampleModel.ProcessView">
-              <MappingFragment StoreEntitySet="ProcessView">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="LogAT" ColumnName="LogAT" />
-                <ScalarProperty Name="FkId" ColumnName="FkId" />
-                <ScalarProperty Name="ProcessID" ColumnName="ProcessID" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

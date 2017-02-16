@@ -121,5 +121,34 @@ namespace CodeSampleBackend.ComFunc
             }
             return jsonObject;
         }
+
+        public static List<Issue> GetGitHubIssueEntity(List<IssueBody> jsonContent, int id)
+        {
+            List<Issue> issues = new List<Issue>();
+            foreach (var item in jsonContent)
+            {
+                Issue issue = new Issue();
+                issue.CreateAt = item.CreateAT;
+                issue.Author = item.User.Name;
+                issue.Title = item.Title;
+                issue.Number = Convert.ToInt32(item.Number);
+                issue.Url = item.Html_Url;
+                issue.UnicodeId = Convert.ToInt32(item.Id);
+                issue.Replies = Convert.ToInt32(item.CommentsNumber);
+                issue.CodeID = id;
+                issue.Body = item.Body;
+                if (item.PullRequest == null)
+                {
+                    issue.Type = "Issue";
+                }
+                else
+                {
+                    issue.Type = "PullRequest";
+                }
+                issues.Add(issue);
+
+            }
+            return issues;
+        }
     }
 }

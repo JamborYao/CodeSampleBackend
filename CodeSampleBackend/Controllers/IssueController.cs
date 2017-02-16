@@ -13,10 +13,10 @@ namespace CodeSampleBackend.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class IssueController : ApiController
     {
-        private DAL.DALProcessLog dal;
+        private BasicCRUD dal;
         public IssueController()
         {
-            dal = new DAL.DALProcessLog();
+            dal = new BasicCRUD();
         }
         public MoonCakeCodeSampleEntities context;
 
@@ -35,7 +35,7 @@ namespace CodeSampleBackend.Controllers
             var codes = dal.GetAll<Code>();
             foreach (var item in codes)
             {
-                List<Issue> issues = DAL.DALIssue.GetGitHubIssueEntity(GitHubHelper.GetGitHubIssueObject(item.GitHubUrl), item.id);
+                List<Issue> issues = GitHubHelper.GetGitHubIssueEntity(GitHubHelper.GetGitHubIssueObject(item.GitHubUrl), item.id);
 
                 foreach (var issue in issues)
                 {

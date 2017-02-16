@@ -23,7 +23,8 @@ namespace CodeSampleBackend.ComFunc
             }
 
             return dictionary;
-        } public static List<CommitView> ConvertCommitToCommitView(List<Commit> issues, BasicCRUD dal)
+        }
+        public static List<CommitView> ConvertCommitToCommitView(List<Commit> issues, BasicCRUD dal)
         {
             List<CommitView> views = new List<CommitView>();
             foreach (var item in issues)
@@ -38,8 +39,12 @@ namespace CodeSampleBackend.ComFunc
                 view.id = item.id;
                 view.IsNew = item.IsNew;
                 view.Message = item.Message;
-                var process = DALProcessLog.GetLatestProcess(item.id, "commit");
-                view.Process = process;
+                var process = dal.GetEntities<ProcessLog>(c => c.FkId == item.id && c.Type == "commit").OrderByDescending(c => c.LogAT).FirstOrDefault();
+                if (process!=null)
+                {
+                    view.Process = dal.GetEntities<Process>(c=>c.id==process.ProcessID).First().name;
+                }
+               
                 view.PSha = item.PSha;
                 view.Sha = item.Sha;
                 view.Type = item.Author;
@@ -56,6 +61,59 @@ namespace CodeSampleBackend.ComFunc
                 {
                     view.Alias = aliasEntity.support_alias;
                 }
+                views.Add(view);
+            }
+
+            return views;
+        }
+        /// <summary>
+        /// str format for example test1;test2;
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static List<string> stringToList(string str)
+        {
+
+            if (str == null) return null;
+            return str.Split(';').ToList();
+
+        }
+
+        public static List<IssueView> ConvertIssueToIssueView(List<Issue> issues, BasicCRUD dal)
+        {
+            List<IssueView> views = new List<IssueView>();
+            foreach (var item in issues)
+            {
+                IssueView view = new IssueView();
+                view.id = item.id;
+                view.Title = item.Title;
+                view.CreateAt = item.CreateAt;
+                view.Number = item.Number;
+                view.Url = item.Url;
+                view.UnicodeId = item.UnicodeId;
+                view.Replies = item.Replies;
+                view.Author = item.Author;
+                view.CodeID = item.CodeID;
+                view.Type = item.Type;
+                var aliasEntity =dal.GetEntities<CodeOwnership>(c => c.FkId == item.id && c.Type == "issue").OrderByDescending(p => p.LogAt).FirstOrDefault();
+                if (aliasEntity != null)
+                {
+                    view.alias = aliasEntity.support_alias;
+                }
+                var uts =dal.GetEntities<UTLog>(c => c.FkId == item.id && c.Type == "issue");
+                int? utValue = 0;
+                foreach (var ut in uts)
+                {
+                    utValue += ut.UT;
+                }
+                view.UT = utValue;
+
+                var process = dal.GetEntities<IssueStatusLog>(c => c.IssueID == item.id).OrderByDescending(c => c.LogAt).FirstOrDefault(); // DALProcessLog.GetLatestIssueProcess(item.id);
+                if (process != null)
+                {
+                    view.process = dal.GetEntities<IssueStatu>(c => c.id == process.IssueStatusID).First().name;
+                }
+
                 views.Add(view);
             }
 

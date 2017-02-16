@@ -13,10 +13,10 @@ namespace CodeSampleBackend.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class IssueStatusController : ApiController
     {
-        private DAL.DALProcessLog dal;
+        private BasicCRUD dal;
         public IssueStatusController()
         {
-            dal = new DAL.DALProcessLog();
+            dal = new BasicCRUD();
         }
        
         // GET: api/IssueStatus
