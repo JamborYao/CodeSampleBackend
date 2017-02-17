@@ -48,6 +48,7 @@
           <Property Name="IsNew" Type="bit" />
           <Property Name="Type" Type="nvarchar" MaxLength="50" />
           <Property Name="CodeID" Type="int" />
+          <Property Name="SyncDate" Type="datetime" />
         </EntityType>
         <EntityType Name="Issue">
           <Key>
@@ -64,6 +65,7 @@
           <Property Name="Author" Type="nvarchar" MaxLength="50" />
           <Property Name="CodeID" Type="int" />
           <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="SyncDate" Type="datetime" />
         </EntityType>
         <EntityType Name="IssueStatus">
           <Key>
@@ -140,10 +142,6 @@
           <Property Name="alias" Type="nvarchar" MaxLength="50" />
           <Property Name="Type" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'codesample.dbo.IssueView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'codesample.dbo.ProcessView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityContainer Name="MoonCakeCodeSampleModelStoreContainer">
           <EntitySet Name="Code" EntityType="Self.Code" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CodeOwnership" EntityType="Self.CodeOwnership" Schema="dbo" store:Type="Tables" />
@@ -167,14 +165,14 @@ warning 6002: The table/view 'codesample.dbo.ProcessView' does not have a primar
           <EntitySet Name="CodeOwnerships" EntityType="MoonCakeCodeSampleModel.CodeOwnership" />
           <EntitySet Name="Commits" EntityType="MoonCakeCodeSampleModel.Commit" />
           <EntitySet Name="Issues" EntityType="MoonCakeCodeSampleModel.Issue" />
+          <EntitySet Name="IssueStatus" EntityType="MoonCakeCodeSampleModel.IssueStatu" />
+          <EntitySet Name="IssueStatusLogs" EntityType="MoonCakeCodeSampleModel.IssueStatusLog" />
           <EntitySet Name="Platforms" EntityType="MoonCakeCodeSampleModel.Platform" />
           <EntitySet Name="Processes" EntityType="MoonCakeCodeSampleModel.Process" />
           <EntitySet Name="ProcessLogs" EntityType="MoonCakeCodeSampleModel.ProcessLog" />
           <EntitySet Name="Products" EntityType="MoonCakeCodeSampleModel.Product" />
           <EntitySet Name="SupportEngineers" EntityType="MoonCakeCodeSampleModel.SupportEngineer" />
           <EntitySet Name="UTLogs" EntityType="MoonCakeCodeSampleModel.UTLog" />
-          <EntitySet Name="IssueStatus" EntityType="MoonCakeCodeSampleModel.IssueStatu" />
-          <EntitySet Name="IssueStatusLogs" EntityType="MoonCakeCodeSampleModel.IssueStatusLog" />
         </EntityContainer>
         <EntityType Name="Code">
           <Key>
@@ -219,6 +217,7 @@ warning 6002: The table/view 'codesample.dbo.ProcessView' does not have a primar
           <Property Name="IsNew" Type="Boolean" />
           <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CodeID" Type="Int32" />
+          <Property Name="SyncDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Issue">
           <Key>
@@ -235,6 +234,24 @@ warning 6002: The table/view 'codesample.dbo.ProcessView' does not have a primar
           <Property Name="Author" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CodeID" Type="Int32" />
           <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SyncDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="IssueStatu">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="IssueStatusLog">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IssueID" Type="Int32" />
+          <Property Name="IssueStatusID" Type="Int32" />
+          <Property Name="LogAt" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Platform">
           <Key>
@@ -294,23 +311,6 @@ warning 6002: The table/view 'codesample.dbo.ProcessView' does not have a primar
           <Property Name="alias" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="IssueStatu">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="IssueStatusLog">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IssueID" Type="Int32" />
-          <Property Name="IssueStatusID" Type="Int32" />
-          <Property Name="LogAt" Type="DateTime" Precision="3" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -350,6 +350,7 @@ warning 6002: The table/view 'codesample.dbo.ProcessView' does not have a primar
           <EntitySetMapping Name="Commits">
             <EntityTypeMapping TypeName="MoonCakeCodeSampleModel.Commit">
               <MappingFragment StoreEntitySet="Commit">
+                <ScalarProperty Name="SyncDate" ColumnName="SyncDate" />
                 <ScalarProperty Name="CodeID" ColumnName="CodeID" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="IsNew" ColumnName="IsNew" />
@@ -367,6 +368,7 @@ warning 6002: The table/view 'codesample.dbo.ProcessView' does not have a primar
           <EntitySetMapping Name="Issues">
             <EntityTypeMapping TypeName="MoonCakeCodeSampleModel.Issue">
               <MappingFragment StoreEntitySet="Issue">
+                <ScalarProperty Name="SyncDate" ColumnName="SyncDate" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="CodeID" ColumnName="CodeID" />
                 <ScalarProperty Name="Author" ColumnName="Author" />
@@ -377,6 +379,25 @@ warning 6002: The table/view 'codesample.dbo.ProcessView' does not have a primar
                 <ScalarProperty Name="CreateAt" ColumnName="CreateAt" />
                 <ScalarProperty Name="Body" ColumnName="Body" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IssueStatus">
+            <EntityTypeMapping TypeName="MoonCakeCodeSampleModel.IssueStatu">
+              <MappingFragment StoreEntitySet="IssueStatus">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IssueStatusLogs">
+            <EntityTypeMapping TypeName="MoonCakeCodeSampleModel.IssueStatusLog">
+              <MappingFragment StoreEntitySet="IssueStatusLog">
+                <ScalarProperty Name="LogAt" ColumnName="LogAt" />
+                <ScalarProperty Name="IssueStatusID" ColumnName="IssueStatusID" />
+                <ScalarProperty Name="IssueID" ColumnName="IssueID" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -441,25 +462,6 @@ warning 6002: The table/view 'codesample.dbo.ProcessView' does not have a primar
                 <ScalarProperty Name="LogAt" ColumnName="LogAt" />
                 <ScalarProperty Name="FkId" ColumnName="FkId" />
                 <ScalarProperty Name="UT" ColumnName="UT" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="IssueStatus">
-            <EntityTypeMapping TypeName="MoonCakeCodeSampleModel.IssueStatu">
-              <MappingFragment StoreEntitySet="IssueStatus">
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="IssueStatusLogs">
-            <EntityTypeMapping TypeName="MoonCakeCodeSampleModel.IssueStatusLog">
-              <MappingFragment StoreEntitySet="IssueStatusLog">
-                <ScalarProperty Name="LogAt" ColumnName="LogAt" />
-                <ScalarProperty Name="IssueStatusID" ColumnName="IssueStatusID" />
-                <ScalarProperty Name="IssueID" ColumnName="IssueID" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

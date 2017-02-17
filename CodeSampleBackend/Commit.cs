@@ -25,5 +25,6 @@ namespace CodeSampleBackend
         public Nullable<bool> IsNew { get; set; }
         public string Type { get; set; }
         public Nullable<int> CodeID { get; set; }
+        public Nullable<System.DateTime> SyncDate { get; set; }
     }
 }

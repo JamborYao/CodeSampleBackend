@@ -6,7 +6,7 @@ using System.Web;
 
 namespace CodeSampleBackend.Models
 {
-    public class CommitBody
+    public class CommitBody:IBody
     {
         [JsonProperty(PropertyName = "sha")]
         public string Sha { get; set; }

@@ -29,21 +29,16 @@ namespace CodeSampleBackend.Controllers
         /// </summary>
         /// <param name="value"></param>
         // POST api/<controller>
-        public void Post([FromBody]string value)
+        public IHttpActionResult Post()
         {
 
             var codes = dal.GetAll<Code>();
             foreach (var item in codes)
             {
-                List<Issue> issues = GitHubHelper.GetGitHubIssueEntity(GitHubHelper.GetGitHubIssueObject(item.GitHubUrl), item.id);
-
-                foreach (var issue in issues)
-                {
-
-                    dal.AddOrUpdate<Issue>(issue, c => c.CreateAt == issue.CreateAt, Basic.ToDictionary<Issue>(issue));
-                }
-
+                GitAPI api = new GitAPI();
+                api.GetGitHubIssueObject(item.GitHubUrl).ConvertToIssue(api.issueBody, item.id).InsertToDatabase(api.issues,dal);
             }
+            return Ok();
 
         }
 

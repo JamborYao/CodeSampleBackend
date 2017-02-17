@@ -36,53 +36,24 @@ namespace CodeSampleBackend.Controllers
             string limit = paras.Where(c => c.Key == "limit").FirstOrDefault().Value;
             string product = paras.Where(c => c.Key == "product").FirstOrDefault().Value;
             string platform = paras.Where(c => c.Key == "platform").FirstOrDefault().Value;
-            var pageview = DAL.DALGenerateView.GetCodeView(dal.GetAll<Code>(), page, limit,product,platform);
+            var pageview = DAL.DALGenerateView.GetCodeView(dal.GetAll<Code>(), page, limit, product, platform);
             return Ok(pageview);
         }
 
-       
-        public string Post()
+
+        public IHttpActionResult Post()
         {
-            int i = 1;
+            int i = 130;
             while (true)
             {
-                List<Code> codes = HttpHelper.ConvertBodyToCode(HttpHelper.GetHttpRequestBody(string.Format(Constants.SampleCodeURL, i)));
-                i++;
-                if (codes == null)
+                CodeHelper helper = new CodeHelper();
+                helper.GetAcomRequestBody(Constants.SampleCodeURL + i).ConvertBodyToCode(helper.Body).InsertToDatabase(helper.codes, dal);
+                if (helper.Body.Contains("unable to find any sample"))
                 {
                     break;
                 }
-                else
-                {
-                    MoonCakeCodeSampleEntities context = new MoonCakeCodeSampleEntities();
-                    foreach (var item in codes)
-                    {
-                        if (context.Codes.Any(c => c.Title == item.Title))
-                        {
-                            var code = context.Codes.Where(c => c.Title == item.Title).FirstOrDefault();
-                            code.Author = item.Author;
-                            code.CommitID = item.CommitID;
-                            code.GitHubUrl = item.GitHubUrl;
-                            code.IssueID = item.IssueID;
-                            code.LastUpdateDate = item.LastUpdateDate;
-                            code.Link = item.Link;
-                            code.Platform = item.Platform;
-                            code.Products = item.Products;
-                            code.SyncDate = DateTime.UtcNow;
-                            code.Title = item.Title;
-                            code.Description = item.Description;
-                           
-                            context.Entry<Code>(code).State = System.Data.Entity.EntityState.Modified;
-                        }
-                        else
-                        {
-                            context.Codes.Add(item);
-                        }
-                    }
-                    context.SaveChanges();
-                }
             }
-            return "synced!";
+            return Ok();
         }
 
     }

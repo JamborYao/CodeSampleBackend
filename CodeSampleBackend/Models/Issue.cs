@@ -6,7 +6,7 @@ using System.Web;
 
 namespace CodeSampleBackend.Models
 {
-    public class IssueBody
+    public class IssueBody : IBody
     {
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
@@ -32,6 +32,10 @@ namespace CodeSampleBackend.Models
         public Pull PullRequest { get; set; }
 
        
+    }
+
+    public interface IBody
+    {
     }
 
     public class IssueUser

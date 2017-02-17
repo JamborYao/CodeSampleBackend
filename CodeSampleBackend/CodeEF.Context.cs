@@ -29,13 +29,13 @@ namespace CodeSampleBackend
         public virtual DbSet<CodeOwnership> CodeOwnerships { get; set; }
         public virtual DbSet<Commit> Commits { get; set; }
         public virtual DbSet<Issue> Issues { get; set; }
+        public virtual DbSet<IssueStatu> IssueStatus { get; set; }
+        public virtual DbSet<IssueStatusLog> IssueStatusLogs { get; set; }
         public virtual DbSet<Platform> Platforms { get; set; }
         public virtual DbSet<Process> Processes { get; set; }
         public virtual DbSet<ProcessLog> ProcessLogs { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<SupportEngineer> SupportEngineers { get; set; }
         public virtual DbSet<UTLog> UTLogs { get; set; }
-        public virtual DbSet<IssueStatu> IssueStatus { get; set; }
-        public virtual DbSet<IssueStatusLog> IssueStatusLogs { get; set; }
     }
 }

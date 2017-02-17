@@ -1,8 +1,11 @@
 ﻿using CodeSampleBackend.DAL;
 using CodeSampleBackend.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Web;
 
@@ -40,11 +43,11 @@ namespace CodeSampleBackend.ComFunc
                 view.IsNew = item.IsNew;
                 view.Message = item.Message;
                 var process = dal.GetEntities<ProcessLog>(c => c.FkId == item.id && c.Type == "commit").OrderByDescending(c => c.LogAT).FirstOrDefault();
-                if (process!=null)
+                if (process != null)
                 {
-                    view.Process = dal.GetEntities<Process>(c=>c.id==process.ProcessID).First().name;
+                    view.Process = dal.GetEntities<Process>(c => c.id == process.ProcessID).First().name;
                 }
-               
+
                 view.PSha = item.PSha;
                 view.Sha = item.Sha;
                 view.Type = item.Author;
@@ -95,12 +98,12 @@ namespace CodeSampleBackend.ComFunc
                 view.Author = item.Author;
                 view.CodeID = item.CodeID;
                 view.Type = item.Type;
-                var aliasEntity =dal.GetEntities<CodeOwnership>(c => c.FkId == item.id && c.Type == "issue").OrderByDescending(p => p.LogAt).FirstOrDefault();
+                var aliasEntity = dal.GetEntities<CodeOwnership>(c => c.FkId == item.id && c.Type == "issue").OrderByDescending(p => p.LogAt).FirstOrDefault();
                 if (aliasEntity != null)
                 {
                     view.alias = aliasEntity.support_alias;
                 }
-                var uts =dal.GetEntities<UTLog>(c => c.FkId == item.id && c.Type == "issue");
+                var uts = dal.GetEntities<UTLog>(c => c.FkId == item.id && c.Type == "issue");
                 int? utValue = 0;
                 foreach (var ut in uts)
                 {
@@ -118,6 +121,47 @@ namespace CodeSampleBackend.ComFunc
             }
 
             return views;
+        }
+        public static string GitHttpRequest(string url)
+        {
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(url);
+            request.Method = "GET";
+            request.UserAgent = "CodeSampleBackend";
+            String encoded = System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(Constants.GitHubAccount + ":" + Constants.GitHubKey));
+            request.Headers.Add("Authorization", $"Basic {encoded}");
+            try
+            {
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                Stream stream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(stream);
+
+                var content = reader.ReadToEnd();
+                stream.Close();
+                reader.Close();
+                response.Close();
+                return content;
+
+            }
+            catch (Exception e)
+            {
+                if (e.Message.Contains("Page not found"))
+                {
+                    ErrorLog.WriteError(e.Message, $"GetGitHubJsonObject error with {url}");
+                }
+                return "error";
+            }
+        }
+        public static List<T> GetGitHubData<T>(string url, string type) where T : IBody
+        {
+            url = url.Replace("github.com", "api.github.com/repos");
+            url = url.EndsWith("/") ? $"{url}{type}" : $"{url}/{type}";
+            List<T> entities = new List<T>();
+            string content = Basic.GitHttpRequest(url);
+            if (content != "error")
+            {
+                entities = JsonConvert.DeserializeObject<List<T>>(content);
+            }
+            return entities;
         }
     }
 }

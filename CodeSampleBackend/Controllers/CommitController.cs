@@ -26,23 +26,16 @@ namespace CodeSampleBackend.Controllers
         /// </summary>
         /// <param name="value"></param>
         // POST api/<controller>
-        public void Post([FromBody]string value)
+        public IHttpActionResult Post()
         {
 
             var codes = dal.GetAll<Code>();
             foreach (var item in codes)
             {
-                List<Commit> commits = GitHubHelper.GetGitHubCommitEntity(GitHubHelper.GetGitHubCommitObject(item.GitHubUrl), item.id);
-
-                foreach (var commit in commits)
-                {
-
-                    commit.GitHubUrl = item.GitHubUrl;
-
-                    dal.AddOrUpdate<Commit>(commit, c => c.CreateAt == commit.CreateAt, Basic.ToDictionary<Commit>(commit));
-                }
-               
+                GitAPI gitApi = new GitAPI();
+                gitApi.GetGitHubCommitObject(item.GitHubUrl).ConvertToCommit(gitApi.CommitBody, item.id).InsertToDatabase(gitApi.Commits,dal,item.GitHubUrl);
             }
+            return Ok();
         }
 
 

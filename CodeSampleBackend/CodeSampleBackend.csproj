@@ -347,7 +347,7 @@
     <Compile Include="ComFunc\CodeHelper.cs" />
     <Compile Include="ComFunc\Constants.cs" />
     <Compile Include="ComFunc\ErrorLog.cs" />
-    <Compile Include="ComFunc\GitHubHelper.cs" />
+    <Compile Include="ComFunc\GitAPI.cs" />
     <Compile Include="ComFunc\HttpHelper.cs" />
     <Compile Include="ComFunc\ICRUD.cs" />
     <Compile Include="Commit.cs">

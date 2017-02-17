@@ -13,6 +13,7 @@ namespace CodeSampleBackend.ComFunc
     {
         public static string GetHttpRequestBody(string url)
         {
+            url = HttpUtility.UrlDecode(url);
             string body = string.Empty;
             try
             {
