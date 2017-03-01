@@ -1,4 +1,5 @@
 ﻿using CodeSampleBackend.ComFunc;
+using CodeSampleBackend.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
+using System.Web.Mvc;
 
 namespace CodeSampleBackend.Controllers
 {
@@ -35,10 +37,19 @@ namespace CodeSampleBackend.Controllers
        
 
         // POST: api/IssueStatus
-        public IHttpActionResult Post([FromBody]IssueStatusLog value)
+        public HttpStatusCodeResult Post([FromBody]IssueStatusView value)
         {
-            dal.AddOrUpdate<IssueStatusLog>(value,c=>c.IssueID==value.IssueID, Basic.ToDictionary<IssueStatusLog>(value));
-            return Ok();
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.Exception);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, string.Join(" | ", errors));
+            }
+            IssueStatusLog log = new IssueStatusLog();
+            log.IssueID = value.IssueID;
+            log.IssueStatusID = dal.GetEntities<IssueStatu>(c=>c.name==value.IssueStatusName).FirstOrDefault().id;
+            log.LogAt = DateTime.UtcNow;
+            dal.AddOrUpdate<IssueStatusLog>(log, c=>c.IssueID==value.IssueID, Basic.ToDictionary<IssueStatusLog>(log));
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
        

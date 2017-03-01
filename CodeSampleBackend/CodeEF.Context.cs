@@ -12,6 +12,8 @@ namespace CodeSampleBackend
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class MoonCakeCodeSampleEntities : DbContext
     {
@@ -25,7 +27,6 @@ namespace CodeSampleBackend
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Code> Codes { get; set; }
         public virtual DbSet<CodeOwnership> CodeOwnerships { get; set; }
         public virtual DbSet<Commit> Commits { get; set; }
         public virtual DbSet<Issue> Issues { get; set; }
@@ -37,5 +38,19 @@ namespace CodeSampleBackend
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<SupportEngineer> SupportEngineers { get; set; }
         public virtual DbSet<UTLog> UTLogs { get; set; }
+        public virtual DbSet<Code> Codes { get; set; }
+    
+        public virtual ObjectResult<getCodeView_Result> getCodeView(string alias, string process)
+        {
+            var aliasParameter = alias != null ?
+                new ObjectParameter("alias", alias) :
+                new ObjectParameter("alias", typeof(string));
+    
+            var processParameter = process != null ?
+                new ObjectParameter("process", process) :
+                new ObjectParameter("process", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getCodeView_Result>("getCodeView", aliasParameter, processParameter);
+        }
     }
 }

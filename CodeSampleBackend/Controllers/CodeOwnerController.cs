@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Mvc;
 
 namespace CodeSampleBackend.Controllers
 {
@@ -33,11 +34,23 @@ namespace CodeSampleBackend.Controllers
         }
 
         // POST api/<controller>
-        public void Post([FromBody]CodeOwnership value)
+        //public HttpStatusCodeResult Post([FromBody]CodeOwnership value)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.Exception);
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest, string.Join(" | ", errors));
+        //    }
+        //    value.LogAt = DateTime.UtcNow;
+        //    dal.AddOrUpdate<CodeOwnership>(value, c => c.FkId == value.FkId && c.Type == value.Type, Basic.ToDictionary<CodeOwnership>(value));
+        //    return new HttpStatusCodeResult(HttpStatusCode.OK);
+
+        //}
+        public CodeOwnership Post([FromBody]CodeOwnership value)
         {
             dal.AddOrUpdate<CodeOwnership>(value, c => c.FkId == value.FkId && c.Type == value.Type, Basic.ToDictionary<CodeOwnership>(value));
+            return value;
         }
-
 
 
     }

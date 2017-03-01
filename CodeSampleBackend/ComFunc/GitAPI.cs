@@ -28,7 +28,7 @@ namespace CodeSampleBackend.ComFunc
                 commit.CreateAt = item.Commit.Author.CommitDate;
                 commit.Message = item.Commit.Message;
                 commit.URL = item.Html_Url;
-                commit.id = id;
+                commit.CodeID = id;
                 commit.SyncDate = DateTime.UtcNow;
                 commits.Add(commit);
             }
@@ -69,7 +69,7 @@ namespace CodeSampleBackend.ComFunc
         {
             foreach (var commit in commits)
             {
-
+               
                 commit.GitHubUrl = githubUrl;
                 dal.AddOrUpdate<Commit>(commit, c => c.CreateAt == commit.CreateAt, Basic.ToDictionary<Commit>(commit));
             }

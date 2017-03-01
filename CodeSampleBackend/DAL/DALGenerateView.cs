@@ -9,37 +9,17 @@ namespace CodeSampleBackend.DAL
 {
     public class DALGenerateView
     {
-        public static PageCodeView GetCodeView(List<Code> codes,string pageStr,string limitStr,string product,string platform)
+        public static PageCodeView GetCodeView(List<Code> codes,int total)
         {
             PageCodeView pageview = new PageCodeView();
             BasicCRUD dal = new BasicCRUD();
             try
             {
-                int page = Convert.ToInt32(pageStr);
-                int limit = Convert.ToInt32(limitStr);
-              
                 List<CodeView> views = new List<CodeView>();
-                IEnumerable<Code> subCode;
-                if (page == 0 && limit == 0)
-                {
-                    subCode = codes;
-                }
-                else
-                {
-                    page = page == 0 ? -1 : page;
-                    subCode = codes.Skip((page - 1) * limit).Take(limit);
-                }
-                if (product != null)
-                {
-                    subCode= subCode.Where(c => (c.Products!=null?c.Products.ToLower().Contains(product):false));
-                }
-                if (platform != null)
-                {
-                    subCode = subCode.Where(c => (c.Platform != null ? c.Platform.ToLower().Contains(platform) : false));
-                }
-                pageview.Total = subCode.Count();
+                pageview.Total = total;
                 CodeView view = new CodeView();
-                foreach (var item in subCode)
+                foreach (var item in codes)
+
                 {
                     view = new CodeView();
                     view.ID = item.id;
@@ -53,9 +33,15 @@ namespace CodeSampleBackend.DAL
                     {
                         var takeTime = takeTimeEntity.LogAt;
                         view.NewCommit = Basic.ConvertCommitToCommitView(dal.GetEntities<Commit>(c => c.GitHubUrl == item.GitHubUrl && c.CreateAt >= takeTime), dal);
-                        view.NewIssue = Basic.ConvertIssueToIssueView(dal.GetEntities<Issue>(c => c.CodeID == item.id && c.CreateAt >= takeTime), dal);
+                        var newissues = dal.GetEntities<Issue>(c => c.CodeID == item.id && c.CreateAt >= takeTime);
+                        view.NewIssue = Basic.ConvertIssueToIssueView(newissues, dal,newissues.Count());
                     }
-
+                    int? ut = 0;
+                    foreach (var c in dal.GetEntities<UTLog>(c => c.Type == "code" && c.FkId == item.id))
+                    {
+                        ut += c.UT;
+                    }
+                    view.UT =ut ;
                     view.Platforms = Basic.stringToList(item.Platform);
                     view.Products = Basic.stringToList(item.Products);
                     view.SyncDate = item.SyncDate;
@@ -67,6 +53,10 @@ namespace CodeSampleBackend.DAL
                     if (process != null)
                     {
                         view.Process = dal.GetEntities<Process>(c => c.id == process.ProcessID).First().name;
+                    }
+                    else
+                    {
+                        view.Process = "Pending";
                     }
 
                     views.Add(view);

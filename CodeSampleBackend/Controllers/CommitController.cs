@@ -38,7 +38,27 @@ namespace CodeSampleBackend.Controllers
             return Ok();
         }
 
-
+        public IHttpActionResult Get()
+        {
+            var paras = ControllerContext.Request.GetQueryNameValuePairs();
+            string alias = paras.Where(c => c.Key == "alias").FirstOrDefault().Value;
+            string process = paras.Where(c => c.Key == "process").FirstOrDefault().Value;
+            context = new MoonCakeCodeSampleEntities();
+            var result = context.getCodeView(alias, process).ToList();
+            CommitPageView view = new CommitPageView();
+            view.Total = result.Count();
+            string pageStr = paras.Where(c => c.Key == "page").FirstOrDefault().Value;
+            string limitStr = paras.Where(c => c.Key == "limit").FirstOrDefault().Value;
+            int page = Convert.ToInt32(pageStr);
+            int limit = Convert.ToInt32(limitStr);
+            if (page != 0 || limit != 0)
+            {
+                page = page == 0 ? 1 : page;
+                result = result.Skip((page - 1) * limit).Take(limit).ToList();
+            }
+            view.Views = result;
+            return Ok(view);
+        }
 
     }
 }

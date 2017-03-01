@@ -74,16 +74,24 @@ namespace CodeSampleBackend.ComFunc
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static List<string> stringToList(string str)
+        public static string[] stringToList(string str)
         {
 
             if (str == null) return null;
-            return str.Split(';').ToList();
+        
+            string[] lists = str.Split(';');
+
+        
+
+            return lists;
 
         }
 
-        public static List<IssueView> ConvertIssueToIssueView(List<Issue> issues, BasicCRUD dal)
+        public static IssuePageView ConvertIssueToIssueView(List<Issue> issues, BasicCRUD dal,int total)
         {
+
+            IssuePageView pageview = new IssuePageView();
+            pageview.Total = total;
             List<IssueView> views = new List<IssueView>();
             foreach (var item in issues)
             {
@@ -116,11 +124,13 @@ namespace CodeSampleBackend.ComFunc
                 {
                     view.process = dal.GetEntities<IssueStatu>(c => c.id == process.IssueStatusID).First().name;
                 }
-
+                else {
+                    view.process = "New Issue";
+                }
                 views.Add(view);
             }
-
-            return views;
+            pageview.Views = views;
+            return pageview;
         }
         public static string GitHttpRequest(string url)
         {

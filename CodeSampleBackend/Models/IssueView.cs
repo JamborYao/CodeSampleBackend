@@ -1,10 +1,18 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace CodeSampleBackend.Models
 {
+    public class IssuePageView
+    {
+        [JsonProperty(PropertyName = "total")]
+        public int Total { get; set; }
+        [JsonProperty(PropertyName = "result")]
+        public List<IssueView> Views { get; set; }
+    }
     public class IssueView
     {
 

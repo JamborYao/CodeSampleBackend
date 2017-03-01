@@ -59,7 +59,7 @@ namespace CodeSampleBackend.ComFunc
                     code.Link = (node.SelectSingleNode(".//a")).Attributes["href"].Value;
                     code.Author = node.SelectSingleNode(".//div[@class='meta']//span//a").InnerText;
                     code.SyncDate = DateTime.UtcNow;
-                    code.GitHubUrl = HttpHelper.GetGitHubURL(code.Link);
+                    code.GitHubUrl = "https://github.com/Azure-Samples"+ code.Link.Replace("/en-us/resources/samples/","/");// code.Link.Substring( code.Link.LastIndexOf("/en-us/resources/samples/"));// HttpHelper.GetGitHubURL(code.Link);
                     var tempUpdate = (node.SelectSingleNode(".//div[@class='meta']//span").InnerText);
                     code.LastUpdateDate = Convert.ToDateTime(tempUpdate.Substring(tempUpdate.IndexOf(":") + 1));
                     var products = node.SelectNodes(".//ul[@class='tags']//a[@class='service-label']");
@@ -67,7 +67,8 @@ namespace CodeSampleBackend.ComFunc
                     {
                         foreach (var product in products)
                         {
-                            code.Products += product.InnerText + ";";
+                            // code.Products += product.InnerText + ";";
+                            code.Products += product.Attributes["data-slug"].Value + ":" + product.InnerText + ";";
                         }
                     }
                     var platforms = node.SelectNodes(".//ul[@class='tags']//a[@class='platform-label']");
@@ -75,7 +76,8 @@ namespace CodeSampleBackend.ComFunc
                     {
                         foreach (var platform in platforms)
                         {
-                            code.Platform += platform.InnerText + ";";
+                            // code.Platform += platform.InnerText + ";";
+                            code.Platform += platform.Attributes["data-platform"].Value+":"+platform.InnerText + ";";
                         }
                     }
                     codes.Add(code);
@@ -100,7 +102,8 @@ namespace CodeSampleBackend.ComFunc
                 foreach (var item in codes)
                 {
                     item.SyncDate = DateTime.UtcNow;
-                    dal.AddOrUpdate<Code>(item, c => c.Title == item.Title, Basic.ToDictionary<Code>(item));
+                    //dal.Add<Code>(item);
+                    dal.AddOrUpdate<Code>(item, c => c.GitHubUrl == item.GitHubUrl, Basic.ToDictionary<Code>(item));
                 }
             }
             return this;

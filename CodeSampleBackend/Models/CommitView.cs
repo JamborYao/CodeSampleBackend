@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -21,5 +22,15 @@ namespace CodeSampleBackend.Models
         public int? UT { get; set; }
         public string Alias { get; set; }
         public string Process { get; set; }
+
+
     }
+    public class CommitPageView
+    {
+        [JsonProperty(PropertyName = "total")]
+        public int Total { get; set; }
+        [JsonProperty(PropertyName = "result")]
+        public List<getCodeView_Result> Views { get; set; }
+    }
+
 }

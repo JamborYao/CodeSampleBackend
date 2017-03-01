@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Mvc;
 
 namespace CodeSampleBackend.Controllers
 {
@@ -26,10 +27,16 @@ namespace CodeSampleBackend.Controllers
         }
 
         // POST api/<controller>
-        public void Post([FromBody]UTLog value)
+        public HttpStatusCodeResult Post([FromBody]UTLog value)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.Exception);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, string.Join(" | ", errors));
+            }
             value.LogAt = DateTime.UtcNow;
             dal.Add<UTLog>(value);
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
     }

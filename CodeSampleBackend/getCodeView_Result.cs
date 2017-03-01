@@ -10,22 +10,20 @@
 namespace CodeSampleBackend
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Code
+    public partial class getCodeView_Result
     {
         public int id { get; set; }
-        public string Title { get; set; }
-        public string Link { get; set; }
-        public string Description { get; set; }
+        public Nullable<System.DateTime> CreateAt { get; set; }
         public string Author { get; set; }
-        public Nullable<System.DateTime> LastUpdateDate { get; set; }
-        public string Products { get; set; }
-        public string Platform { get; set; }
-        public Nullable<System.DateTime> SyncDate { get; set; }
-        public string Process { get; set; }
+        public string Message { get; set; }
+        public string Sha { get; set; }
+        public string PSha { get; set; }
         public string GitHubUrl { get; set; }
-        public Nullable<int> CommitID { get; set; }
-        public Nullable<int> IssueID { get; set; }
+        public string URL { get; set; }
+        public Nullable<int> CodeID { get; set; }
+        public Nullable<int> UT { get; set; }
+        public string support_alias { get; set; }
+        public string Process { get; set; }
     }
 }

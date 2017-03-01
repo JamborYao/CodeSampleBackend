@@ -33,9 +33,9 @@ namespace CodeSampleBackend.Models
         public DateTime? LastUpateDate { get; set; }
 
         [JsonProperty(PropertyName = "products")]
-        public List<string> Products { get; set; }
+        public string[] Products { get; set; }
         [JsonProperty(PropertyName = "platforms")]
-        public List<string> Platforms { get; set; }
+        public string[] Platforms { get; set; }
 
         [JsonProperty(PropertyName = "sync_date")]
         public DateTime? SyncDate { get; set; }
@@ -51,9 +51,11 @@ namespace CodeSampleBackend.Models
         public List<CommitView> NewCommit { get; set; }
 
         [JsonProperty(PropertyName = "new_issue")]
-        public List<IssueView> NewIssue { get; set; }
+        public IssuePageView NewIssue { get; set; }
 
         [JsonProperty(PropertyName = "alias")]
         public string Alias { get; set; }
+        [JsonProperty(PropertyName = "ut")]
+        public int? UT { get; set; }
     }
 }

@@ -18,5 +18,6 @@ namespace CodeSampleBackend
         public Nullable<int> IssueID { get; set; }
         public Nullable<int> IssueStatusID { get; set; }
         public Nullable<System.DateTime> LogAt { get; set; }
+        public string LogBy { get; set; }
     }
 }

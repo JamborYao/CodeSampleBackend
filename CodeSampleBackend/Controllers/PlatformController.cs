@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Mvc;
 
 namespace CodeSampleBackend.Controllers
 {
@@ -30,15 +31,20 @@ namespace CodeSampleBackend.Controllers
         }
 
         // POST api/<controller>
-        public void Post([FromBody]string value)
+        public HttpStatusCodeResult Post([FromBody]string value)
         {
-        
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.Exception);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, string.Join(" | ", errors));
+            }
             List<Platform> platforms = HttpHelper.GetPlatforms();
            
             foreach (var item in platforms)
             {
                 dal.AddOrUpdate<Platform>(item, c => c.Name == item.Name, Basic.ToDictionary<Platform>(item));
             }
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
        

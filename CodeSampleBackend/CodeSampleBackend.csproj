@@ -366,6 +366,9 @@
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\UTController.cs" />
     <Compile Include="DAL\DALGenerateView.cs" />
+    <Compile Include="getCodeView_Result.cs">
+      <DependentUpon>CodeEF.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -385,8 +388,11 @@
     <Compile Include="Models\CommitView.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Issue.cs" />
+    <Compile Include="Models\IssueStatusView.cs" />
     <Compile Include="Models\IssueView.cs" />
     <Compile Include="Models\Metrics.cs" />
+    <Compile Include="Models\ProcessView.cs" />
+    <Compile Include="Models\ValidModel\PartialProcessLog.cs" />
     <Compile Include="Platform.cs">
       <DependentUpon>CodeEF.tt</DependentUpon>
     </Compile>

@@ -11,17 +11,17 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nvarchar(max)" />
-          <Property Name="Link" Type="nvarchar" MaxLength="500" />
+          <Property Name="Link" Type="nvarchar(max)" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="Author" Type="nvarchar" MaxLength="50" />
           <Property Name="LastUpdateDate" Type="datetime" />
           <Property Name="Products" Type="nvarchar(max)" />
           <Property Name="Platform" Type="nvarchar(max)" />
           <Property Name="SyncDate" Type="datetime" />
-          <Property Name="Process" Type="nvarchar" MaxLength="100" />
-          <Property Name="GitHubUrl" Type="nvarchar" MaxLength="500" />
-          <Property Name="CommitID" Type="nvarchar" MaxLength="50" />
-          <Property Name="IssueID" Type="nvarchar" MaxLength="50" />
+          <Property Name="Process" Type="nvarchar" MaxLength="50" />
+          <Property Name="GitHubUrl" Type="nvarchar(max)" />
+          <Property Name="CommitID" Type="int" />
+          <Property Name="IssueID" Type="int" />
         </EntityType>
         <EntityType Name="CodeOwnership">
           <Key>
@@ -83,6 +83,7 @@
           <Property Name="IssueID" Type="int" />
           <Property Name="IssueStatusID" Type="int" />
           <Property Name="LogAt" Type="datetime" />
+          <Property Name="LogBy" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Platform">
           <Key>
@@ -110,6 +111,7 @@
           <Property Name="FkId" Type="int" />
           <Property Name="LogAT" Type="datetime" />
           <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="LogBy" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -142,6 +144,10 @@
           <Property Name="alias" Type="nvarchar" MaxLength="50" />
           <Property Name="Type" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <Function Name="getCodeView" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="alias" Type="nvarchar" Mode="In" />
+          <Parameter Name="process" Type="nvarchar" Mode="In" />
+        </Function>
         <EntityContainer Name="MoonCakeCodeSampleModelStoreContainer">
           <EntitySet Name="Code" EntityType="Self.Code" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CodeOwnership" EntityType="Self.CodeOwnership" Schema="dbo" store:Type="Tables" />
@@ -161,7 +167,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="MoonCakeCodeSampleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="MoonCakeCodeSampleEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Codes" EntityType="MoonCakeCodeSampleModel.Code" />
           <EntitySet Name="CodeOwnerships" EntityType="MoonCakeCodeSampleModel.CodeOwnership" />
           <EntitySet Name="Commits" EntityType="MoonCakeCodeSampleModel.Commit" />
           <EntitySet Name="Issues" EntityType="MoonCakeCodeSampleModel.Issue" />
@@ -173,25 +178,12 @@
           <EntitySet Name="Products" EntityType="MoonCakeCodeSampleModel.Product" />
           <EntitySet Name="SupportEngineers" EntityType="MoonCakeCodeSampleModel.SupportEngineer" />
           <EntitySet Name="UTLogs" EntityType="MoonCakeCodeSampleModel.UTLog" />
+          <EntitySet Name="Codes" EntityType="MoonCakeCodeSampleModel.Code" />
+          <FunctionImport Name="getCodeView" ReturnType="Collection(MoonCakeCodeSampleModel.getCodeView_Result)">
+            <Parameter Name="alias" Mode="In" Type="String" />
+            <Parameter Name="process" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
-        <EntityType Name="Code">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Link" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Author" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LastUpdateDate" Type="DateTime" Precision="3" />
-          <Property Name="Products" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Platform" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SyncDate" Type="DateTime" Precision="3" />
-          <Property Name="Process" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="GitHubUrl" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="CommitID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IssueID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="CodeOwnership">
           <Key>
             <PropertyRef Name="id" />
@@ -252,6 +244,7 @@
           <Property Name="IssueID" Type="Int32" />
           <Property Name="IssueStatusID" Type="Int32" />
           <Property Name="LogAt" Type="DateTime" Precision="3" />
+          <Property Name="LogBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Platform">
           <Key>
@@ -279,6 +272,7 @@
           <Property Name="FkId" Type="Int32" />
           <Property Name="LogAT" Type="DateTime" Precision="3" />
           <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LogBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -311,31 +305,44 @@
           <Property Name="alias" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="Code">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Link" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Author" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="Products" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Platform" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SyncDate" Type="DateTime" Precision="3" />
+          <Property Name="Process" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GitHubUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CommitID" Type="Int32" />
+          <Property Name="IssueID" Type="Int32" />
+        </EntityType>
+        <ComplexType Name="getCodeView_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="DateTime" Name="CreateAt" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Author" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Message" Nullable="true" />
+          <Property Type="String" Name="Sha" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PSha" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="GitHubUrl" Nullable="true" />
+          <Property Type="String" Name="URL" Nullable="true" />
+          <Property Type="Int32" Name="CodeID" Nullable="true" />
+          <Property Type="Int32" Name="UT" Nullable="true" />
+          <Property Type="String" Name="support_alias" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Process" Nullable="true" MaxLength="50" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="MoonCakeCodeSampleModelStoreContainer" CdmEntityContainer="MoonCakeCodeSampleEntities">
-          <EntitySetMapping Name="Codes">
-            <EntityTypeMapping TypeName="MoonCakeCodeSampleModel.Code">
-              <MappingFragment StoreEntitySet="Code">
-                <ScalarProperty Name="IssueID" ColumnName="IssueID" />
-                <ScalarProperty Name="CommitID" ColumnName="CommitID" />
-                <ScalarProperty Name="GitHubUrl" ColumnName="GitHubUrl" />
-                <ScalarProperty Name="Process" ColumnName="Process" />
-                <ScalarProperty Name="SyncDate" ColumnName="SyncDate" />
-                <ScalarProperty Name="Platform" ColumnName="Platform" />
-                <ScalarProperty Name="Products" ColumnName="Products" />
-                <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
-                <ScalarProperty Name="Author" ColumnName="Author" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Link" ColumnName="Link" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CodeOwnerships">
             <EntityTypeMapping TypeName="MoonCakeCodeSampleModel.CodeOwnership">
               <MappingFragment StoreEntitySet="CodeOwnership">
@@ -395,6 +402,7 @@
           <EntitySetMapping Name="IssueStatusLogs">
             <EntityTypeMapping TypeName="MoonCakeCodeSampleModel.IssueStatusLog">
               <MappingFragment StoreEntitySet="IssueStatusLog">
+                <ScalarProperty Name="LogBy" ColumnName="LogBy" />
                 <ScalarProperty Name="LogAt" ColumnName="LogAt" />
                 <ScalarProperty Name="IssueStatusID" ColumnName="IssueStatusID" />
                 <ScalarProperty Name="IssueID" ColumnName="IssueID" />
@@ -424,6 +432,7 @@
           <EntitySetMapping Name="ProcessLogs">
             <EntityTypeMapping TypeName="MoonCakeCodeSampleModel.ProcessLog">
               <MappingFragment StoreEntitySet="ProcessLog">
+                <ScalarProperty Name="LogBy" ColumnName="LogBy" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="LogAT" ColumnName="LogAT" />
                 <ScalarProperty Name="FkId" ColumnName="FkId" />
@@ -466,6 +475,43 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Codes">
+            <EntityTypeMapping TypeName="MoonCakeCodeSampleModel.Code">
+              <MappingFragment StoreEntitySet="Code">
+                <ScalarProperty Name="IssueID" ColumnName="IssueID" />
+                <ScalarProperty Name="CommitID" ColumnName="CommitID" />
+                <ScalarProperty Name="GitHubUrl" ColumnName="GitHubUrl" />
+                <ScalarProperty Name="Process" ColumnName="Process" />
+                <ScalarProperty Name="SyncDate" ColumnName="SyncDate" />
+                <ScalarProperty Name="Platform" ColumnName="Platform" />
+                <ScalarProperty Name="Products" ColumnName="Products" />
+                <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="getCodeView" FunctionName="MoonCakeCodeSampleModel.Store.getCodeView">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MoonCakeCodeSampleModel.getCodeView_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="CreateAt" ColumnName="CreateAt" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Sha" ColumnName="Sha" />
+                <ScalarProperty Name="PSha" ColumnName="PSha" />
+                <ScalarProperty Name="GitHubUrl" ColumnName="GitHubUrl" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="CodeID" ColumnName="CodeID" />
+                <ScalarProperty Name="UT" ColumnName="UT" />
+                <ScalarProperty Name="support_alias" ColumnName="support_alias" />
+                <ScalarProperty Name="Process" ColumnName="Process" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

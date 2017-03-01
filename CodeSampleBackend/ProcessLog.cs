@@ -19,5 +19,6 @@ namespace CodeSampleBackend
         public Nullable<int> FkId { get; set; }
         public Nullable<System.DateTime> LogAT { get; set; }
         public string Type { get; set; }
+        public string LogBy { get; set; }
     }
 }
