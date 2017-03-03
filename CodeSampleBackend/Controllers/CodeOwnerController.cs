@@ -48,6 +48,7 @@ namespace CodeSampleBackend.Controllers
         //}
         public CodeOwnership Post([FromBody]CodeOwnership value)
         {
+            value.LogAt = DateTime.UtcNow;
             dal.AddOrUpdate<CodeOwnership>(value, c => c.FkId == value.FkId && c.Type == value.Type, Basic.ToDictionary<CodeOwnership>(value));
             return value;
         }

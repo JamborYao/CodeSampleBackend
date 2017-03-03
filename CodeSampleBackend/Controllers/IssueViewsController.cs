@@ -26,19 +26,28 @@ namespace CodeSampleBackend.Controllers
 
 
         // GET: api/IssueViews
-        public IssuePageView GetIssueViews()
+        public IHttpActionResult GetIssueViews()
         {
             var paras = ControllerContext.Request.GetQueryNameValuePairs();
-            string type = paras.Where(c => c.Key == "type").FirstOrDefault().Value;
+            string process = paras.Where(c => c.Key == "process").FirstOrDefault().Value;
             string alias = paras.Where(c => c.Key == "alias").FirstOrDefault().Value;
-            string page = paras.Where(c => c.Key == "page").FirstOrDefault().Value;
-            string limit = paras.Where(c => c.Key == "limit").FirstOrDefault().Value;
-           
-            int total;
-            List<Issue> queryIssues = QueryIssueView(page, limit, alias,type, out total);
-         
-           
-            return Basic.ConvertIssueToIssueView(queryIssues, dal,total);
+            string pageStr = paras.Where(c => c.Key == "page").FirstOrDefault().Value;
+            string limitStr = paras.Where(c => c.Key == "limit").FirstOrDefault().Value;
+
+            MoonCakeCodeSampleEntities context = new MoonCakeCodeSampleEntities();
+            var result = context.getIssueView(alias, process).ToList();
+            IssuePageView view = new IssuePageView();
+            view.Total = result.Count();
+
+            int page = Convert.ToInt32(pageStr);
+            int limit = Convert.ToInt32(limitStr);
+            if (page != 0 || limit != 0)
+            {
+                page = page == 0 ? 1 : page;
+                result = result.Skip((page - 1) * limit).Take(limit).ToList();
+            }
+            view.Views = result;
+            return Ok(view);
         }
 
         private List<Issue> QueryIssueView(string pageStr, string limitStr, string alias, string type, out int total)

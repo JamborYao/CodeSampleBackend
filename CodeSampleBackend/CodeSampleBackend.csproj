@@ -369,6 +369,9 @@
     <Compile Include="getCodeView_Result.cs">
       <DependentUpon>CodeEF.tt</DependentUpon>
     </Compile>
+    <Compile Include="getIssueView_Result.cs">
+      <DependentUpon>CodeEF.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

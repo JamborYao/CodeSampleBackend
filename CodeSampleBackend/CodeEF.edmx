@@ -148,6 +148,10 @@
           <Parameter Name="alias" Type="nvarchar" Mode="In" />
           <Parameter Name="process" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="getIssueView" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="alias" Type="nvarchar" Mode="In" />
+          <Parameter Name="process" Type="nvarchar" Mode="In" />
+        </Function>
         <EntityContainer Name="MoonCakeCodeSampleModelStoreContainer">
           <EntitySet Name="Code" EntityType="Self.Code" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CodeOwnership" EntityType="Self.CodeOwnership" Schema="dbo" store:Type="Tables" />
@@ -180,6 +184,10 @@
           <EntitySet Name="UTLogs" EntityType="MoonCakeCodeSampleModel.UTLog" />
           <EntitySet Name="Codes" EntityType="MoonCakeCodeSampleModel.Code" />
           <FunctionImport Name="getCodeView" ReturnType="Collection(MoonCakeCodeSampleModel.getCodeView_Result)">
+            <Parameter Name="alias" Mode="In" Type="String" />
+            <Parameter Name="process" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="getIssueView" ReturnType="Collection(MoonCakeCodeSampleModel.getIssueView_Result)">
             <Parameter Name="alias" Mode="In" Type="String" />
             <Parameter Name="process" Mode="In" Type="String" />
           </FunctionImport>
@@ -336,6 +344,21 @@
           <Property Type="Int32" Name="UT" Nullable="true" />
           <Property Type="String" Name="support_alias" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Process" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="getIssueView_Result">
+          <Property Type="String" Name="Title" Nullable="true" />
+          <Property Type="DateTime" Name="CreateAt" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="Number" Nullable="true" />
+          <Property Type="String" Name="Url" Nullable="true" />
+          <Property Type="Int32" Name="UnicodeId" Nullable="true" />
+          <Property Type="Int32" Name="Replies" Nullable="true" />
+          <Property Type="String" Name="Author" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Type" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="alias" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="UT" Nullable="true" />
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="process" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="CodeID" Nullable="true" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -509,6 +532,25 @@
                 <ScalarProperty Name="UT" ColumnName="UT" />
                 <ScalarProperty Name="support_alias" ColumnName="support_alias" />
                 <ScalarProperty Name="Process" ColumnName="Process" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getIssueView" FunctionName="MoonCakeCodeSampleModel.Store.getIssueView">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MoonCakeCodeSampleModel.getIssueView_Result">
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="CreateAt" ColumnName="CreateAt" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="UnicodeId" ColumnName="UnicodeId" />
+                <ScalarProperty Name="Replies" ColumnName="Replies" />
+                <ScalarProperty Name="Author" ColumnName="Author" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="alias" ColumnName="alias" />
+                <ScalarProperty Name="UT" ColumnName="UT" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="process" ColumnName="process" />
+                <ScalarProperty Name="CodeID" ColumnName="CodeID" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

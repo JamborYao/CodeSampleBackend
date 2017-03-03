@@ -92,10 +92,10 @@ namespace CodeSampleBackend.ComFunc
 
             IssuePageView pageview = new IssuePageView();
             pageview.Total = total;
-            List<IssueView> views = new List<IssueView>();
+            List<getIssueView_Result> views = new List<getIssueView_Result>();
             foreach (var item in issues)
             {
-                IssueView view = new IssueView();
+                getIssueView_Result view = new getIssueView_Result();
                 view.id = item.id;
                 view.Title = item.Title;
                 view.CreateAt = item.CreateAt;

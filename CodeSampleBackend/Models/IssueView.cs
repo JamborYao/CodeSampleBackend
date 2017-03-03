@@ -11,25 +11,25 @@ namespace CodeSampleBackend.Models
         [JsonProperty(PropertyName = "total")]
         public int Total { get; set; }
         [JsonProperty(PropertyName = "result")]
-        public List<IssueView> Views { get; set; }
+        public List<getIssueView_Result> Views { get; set; }
     }
-    public class IssueView
-    {
+    //public class IssueView
+    //{
 
-        public string Title { get; set; }
-        public Nullable<System.DateTime> CreateAt { get; set; }
-        public Nullable<int> Number { get; set; }
-        public string Url { get; set; }
-        public Nullable<int> UnicodeId { get; set; }
-        public Nullable<int> Replies { get; set; }
-        public string Author { get; set; }
-        public Nullable<int> CodeID { get; set; }
-        public string Type { get; set; }
-        public string alias { get; set; }
-        public Nullable<int> UT { get; set; }
-        public string Comment { get; set; }
-        public int id { get; set; }
-        public string process { get; set; }
-    }
+    //    public string Title { get; set; }
+    //    public Nullable<System.DateTime> CreateAt { get; set; }
+    //    public Nullable<int> Number { get; set; }
+    //    public string Url { get; set; }
+    //    public Nullable<int> UnicodeId { get; set; }
+    //    public Nullable<int> Replies { get; set; }
+    //    public string Author { get; set; }
+    //    public Nullable<int> CodeID { get; set; }
+    //    public string Type { get; set; }
+    //    public string alias { get; set; }
+    //    public Nullable<int> UT { get; set; }
+    //    public string Comment { get; set; }
+    //    public int id { get; set; }
+    //    public string process { get; set; }
+    //}
 
 }

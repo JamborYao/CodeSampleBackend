@@ -32,7 +32,7 @@ namespace CodeSampleBackend.DAL
                     if (takeTimeEntity != null)
                     {
                         var takeTime = takeTimeEntity.LogAt;
-                        view.NewCommit = Basic.ConvertCommitToCommitView(dal.GetEntities<Commit>(c => c.GitHubUrl == item.GitHubUrl && c.CreateAt >= takeTime), dal);
+                        view.NewCommit = Basic.ConvertCommitToCommitView(dal.GetEntities<Commit>(c =>item.GitHubUrl.IndexOf(c.GitHubUrl)>=0 && c.CreateAt >= takeTime), dal);
                         var newissues = dal.GetEntities<Issue>(c => c.CodeID == item.id && c.CreateAt >= takeTime);
                         view.NewIssue = Basic.ConvertIssueToIssueView(newissues, dal,newissues.Count());
                     }

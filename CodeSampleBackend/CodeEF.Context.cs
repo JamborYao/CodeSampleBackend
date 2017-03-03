@@ -52,5 +52,18 @@ namespace CodeSampleBackend
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getCodeView_Result>("getCodeView", aliasParameter, processParameter);
         }
+    
+        public virtual ObjectResult<getIssueView_Result> getIssueView(string alias, string process)
+        {
+            var aliasParameter = alias != null ?
+                new ObjectParameter("alias", alias) :
+                new ObjectParameter("alias", typeof(string));
+    
+            var processParameter = process != null ?
+                new ObjectParameter("process", process) :
+                new ObjectParameter("process", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getIssueView_Result>("getIssueView", aliasParameter, processParameter);
+        }
     }
 }
